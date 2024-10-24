@@ -3,8 +3,9 @@ package sjsu.edu.pennywise;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
 
 /**
@@ -13,12 +14,17 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) {
-        var label = new Label("Hello, JavaFX running on Java .");
-        var scene = new Scene(new StackPane(label), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
+    public void start(Stage primaryStage) {
+		try {
+			HBox root = (HBox)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
     public static void main(String[] args) {
         launch();
