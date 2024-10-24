@@ -1,10 +1,12 @@
-package src.main.java.sjsu.edu.pennywise.Models; 
+package src.main.java.sjsu.edu.pennywise.Models; // check this across other files. 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
+/* Use mvn compile exec:java -Dexec.mainClass="src.main.java.sjsu.edu.pennywise.Models.DbConnection" to test the dbconnection */ 
 
 public class DbConnection {
     private static final String DB_PATH = "lib/pennywise.db";
@@ -39,7 +41,7 @@ public class DbConnection {
 
     public static void main(String[] args) {
         initializeDatabase();
-        // Test connection and table existence
+        // Tests
         try (Connection conn = connect()) {
             if (conn != null) {
                 var meta = conn.getMetaData();
