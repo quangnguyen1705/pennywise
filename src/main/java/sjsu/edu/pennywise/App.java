@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 
 /**
  * JavaFX App
+ * run inside pennywise/ with mvn clean javafx:run
  */
 public class App extends Application {
 
