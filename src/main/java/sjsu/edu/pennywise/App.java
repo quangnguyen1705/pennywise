@@ -3,7 +3,7 @@ package sjsu.edu.pennywise;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
@@ -16,7 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
 		try {
-			HBox root = (HBox)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
+			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
