@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
@@ -7,14 +8,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="66.0" prefWidth="1920.0" style="-fx-background-color: #dddddd;">
          <children>
             <ColorPicker layoutX="1288.0" layoutY="13.0">
                <value>
-                  <Color green="0.0313725508749485" blue="0.6196078658103943" />
+                  <Color red="0.239215686917305" green="0.27450981736183167" blue="0.8156862854957581" />
                </value>
             </ColorPicker>
          </children>
@@ -36,6 +36,9 @@
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </AnchorPane>
