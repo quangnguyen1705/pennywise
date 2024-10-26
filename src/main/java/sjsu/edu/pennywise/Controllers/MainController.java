@@ -53,7 +53,7 @@ public class MainController implements Initializable{
 		// TODO Auto-generated method stub
 		AccName.setCellValueFactory(new PropertyValueFactory<>("bankName"));
 		OpBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
-        	OpDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+        OpDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 		
 		//AccListView.setItems(list);
 		loadAccounts(); 
