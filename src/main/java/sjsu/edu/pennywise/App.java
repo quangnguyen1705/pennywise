@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
+import sjsu.edu.pennywise.Models.DbConnection; 
 
 
 /**
@@ -15,6 +16,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
 		try {
+			DbConnection.initializeDatabase(); // this checks if the db already exists
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);

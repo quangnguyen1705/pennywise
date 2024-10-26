@@ -1,12 +1,15 @@
 package sjsu.edu.pennywise;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Account {
 	private String id; 
 	private String bankName; 
 	private double balance; 
-	private String date; 
+	private LocalDate date; 
 	
-	public Account(String id, String bankName, double balance, String date) {
+	public Account(String id, String bankName, double balance, LocalDate date) {
 		this.id = id; 
 		this.bankName = bankName; 
 		this.balance = balance; 
@@ -26,12 +29,16 @@ public class Account {
 		return balance;
 	}
 	
-	public String getDate() {
+	public LocalDate getDate() {
 		return date; 
 	}
 	
 	
 	// setters 
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
@@ -41,8 +48,14 @@ public class Account {
 		this.balance = balance; 
 	}
 	
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date; 
 	}
+	
+    // format date so that it displays to the user in the same way they inputted it
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yy");
+        return date.format(formatter);
+    }
 
 }

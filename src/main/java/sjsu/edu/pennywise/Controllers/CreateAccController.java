@@ -1,74 +1,78 @@
 package sjsu.edu.pennywise.Controllers;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import sjsu.edu.pennywise.AccountList;
+
+import java.time.LocalDate; 
+
+
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
+import javafx.scene.control.DatePicker;
+import javafx.fxml.FXMLLoader;
+
 
 public class CreateAccController {
 
 	private Stage stage;
 	private Scene scene;
 	
+    @FXML
+    private TextField accountNameInput;
+
+    @FXML
+    private TextField balanceInput;
+
+    @FXML
+    private DatePicker openDateInput;
+
+    private AccountList accountList = new AccountList();
+
+    //create new account
+    @FXML
+    public void createAccount(ActionEvent event) {
+        try {
+            String bankName = accountNameInput.getText();
+            double balance = Double.parseDouble(balanceInput.getText());
+            LocalDate openDate = openDateInput.getValue();
+
+            if (bankName.isEmpty() || openDate == null) {
+                System.out.println("Not all fields were filled out!");
+                return;
+            }
+
+            // add account to the arraylist
+            accountList.addAccount(bankName, balance, openDate);
+            System.out.println("Account created successfully!");
+
+            // switch back to the main screen 
+            // TODO: after account creation, decide whether to auto-switc to main screen or not
+            switchToMain(event);
+
+        } catch (NumberFormatException error) {
+            System.out.println("Invalid amount entered for opening balance");
+        } catch (IOException error) {
+            System.out.println("Failed to load the main page: " + error.getMessage());
+        }
+    }
 	
 	public void switchToMain(ActionEvent event) throws IOException {
-		AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+	    AnchorPane root = loader.load();
+        
+	    //Refreshing accounts list
+        MainController mainController = loader.getController();
+        mainController.loadAccounts(); 
+        
 		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 	}
-	
-	public void initialize() { //stop people enter on Date Picker
-	OpeningDate.getEditor().setDisable(true);
-	OpeningDate.getEditor().setOpacity(1);
-	}
-	
-	
-	@FXML
-	private TextField AccountName;	
-	@FXML
-	private TextField OpeningBalance;
-	@FXML
-	private DatePicker OpeningDate;
-	@FXML
-	private Button myButton;
-	@FXML
-	private Label MyLabel;
-	
-	String accName;
-	Integer openBalance;
-	LocalDate openDate;
-	
-
-	public void submit(ActionEvent event) {
-		
-	    try {
-	        // Directly assign the String from the TextField
-	        openBalance = Integer.parseInt(OpeningBalance.getText());
-	        System.out.println(openBalance);
-
-	        openDate = OpeningDate.getValue();
-	        System.out.println(openDate);
-	        
-	    	accName = AccountName.getText();
-	        System.out.println(accName);
-
-
-	    }
-	    catch (Exception e) {
-	        MyLabel.setText("Enter Valid");
-	    }
-	}
 }
-
-	
