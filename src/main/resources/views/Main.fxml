@@ -34,9 +34,9 @@
                   </Button>
                   <TableView fx:id="AccListView" layoutX="24.0" layoutY="76.0" prefHeight="539.0" prefWidth="760.0">
                     <columns>
-                      <TableColumn fx:id="AccName" prefWidth="253.3" text="AccName" />
-                      <TableColumn fx:id="OpBalance" prefWidth="253.3" text="OpBalance" />
-                        <TableColumn fx:id="OpDate" prefWidth="253.3" text="OpDate" />
+                      <TableColumn fx:id="AccName" prefWidth="253.3" text="Account Name" />
+                      <TableColumn fx:id="OpBalance" prefWidth="253.3" text="Opening Balance" />
+                        <TableColumn fx:id="OpDate" prefWidth="253.3" text="Opening Date" />
                     </columns>
                   </TableView>
                </children>
