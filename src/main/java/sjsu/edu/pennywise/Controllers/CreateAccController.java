@@ -1,6 +1,8 @@
 package sjsu.edu.pennywise.Controllers;
 
 import java.io.IOException;
+
+import sjsu.edu.pennywise.Account;
 import sjsu.edu.pennywise.AccountList;
 
 import java.time.LocalDate; 
@@ -15,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.fxml.FXMLLoader;
 
 
@@ -27,6 +30,9 @@ public class CreateAccController {
     private TextField accountNameInput;
 
     @FXML
+    private Label errMSG;
+    
+    @FXML
     private TextField balanceInput;
 
     @FXML
@@ -37,16 +43,21 @@ public class CreateAccController {
     //create new account
     @FXML
     public void createAccount(ActionEvent event) {
+    	errMSG.setText("");
         try {
             String bankName = accountNameInput.getText();
             double balance = Double.parseDouble(balanceInput.getText());
             LocalDate openDate = openDateInput.getValue();
 
             if (bankName.isEmpty() || openDate == null) {
-                System.out.println("Not all fields were filled out!");
+            	errMSG.setText("Fill out required fields");
                 return;
             }
-
+            if (nameExists(bankName)) {
+            	errMSG.setText("Account already exists");
+            	return;
+            }
+            
             // add account to the arraylist
             accountList.addAccount(bankName, balance, openDate);
             System.out.println("Account created successfully!");
@@ -56,7 +67,7 @@ public class CreateAccController {
             switchToMain(event);
 
         } catch (NumberFormatException error) {
-            System.out.println("Invalid amount entered for opening balance");
+            errMSG.setText("Invalid amount entered for opening balance");
         } catch (IOException error) {
             System.out.println("Failed to load the main page: " + error.getMessage());
         }
@@ -74,5 +85,14 @@ public class CreateAccController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+	}
+	
+	private boolean nameExists(String name) {
+		for (Account acc: accountList.getList()) {
+			if (acc.getBankName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
