@@ -1,9 +1,11 @@
 package sjsu.edu.pennywise.Controllers;
 /**
  * @author Matthew Tran
+ * @author Aditya Rao
  */
 
 import java.io.IOException;
+import java.time.LocalDate; 
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,16 +17,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.beans.property.SimpleStringProperty;
+
 import sjsu.edu.pennywise.Account;
+import sjsu.edu.pennywise.AccountList;
 
 public class MainController implements Initializable{
 	
 	private Stage stage;
 	private Scene scene;
+	private AccountList accountList = new AccountList(); 
 	
 	@FXML
 	private TableView<Account> AccListView;
@@ -33,24 +39,24 @@ public class MainController implements Initializable{
 	@FXML
 	private TableColumn<Account, Double> OpBalance;
 	@FXML
-	private TableColumn<Account, String> OpDate;
+	private TableColumn<Account, String> OpDate; // we do format this as a date in the initialization
 	
-	//Test Data
+	
 	//TODO: get the list of accounts
-	ObservableList<Account> list = FXCollections.observableArrayList(
-			
-			new Account("ahvdhwad", "TestChecking", 23.33, "12/12/2024")
-			
-			);
+	public void loadAccounts() {
+        ObservableList<Account> accounts = FXCollections.observableArrayList(accountList.getList());
+        AccListView.setItems(accounts);
+	}
 			
 	@FXML
 	public void initialize(URL url, ResourceBundle rb) {
 		// TODO Auto-generated method stub
 		AccName.setCellValueFactory(new PropertyValueFactory<>("bankName"));
 		OpBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
-		OpDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        	OpDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 		
-		AccListView.setItems(list);
+		//AccListView.setItems(list);
+		loadAccounts(); 
 		
 	}
 	
