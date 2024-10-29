@@ -39,12 +39,26 @@ public class CreateAccController {
     private DatePicker openDateInput;
 
     private AccountList accountList = new AccountList();
+    
+    
+    
+    public void initialize() {
+        // Set the current date as the default value
+        openDateInput.setValue(LocalDate.now());
+
+        // Prevent users from typing in the DatePicker
+        openDateInput.getEditor().setDisable(true);
+        openDateInput.getEditor().setOpacity(1);
+    }
 
     //create new account
     @FXML
     public void createAccount(ActionEvent event) {
+    	
+        
     	errMSG.setText("");
         try {
+        	
             String bankName = accountNameInput.getText();
             double balance = Double.parseDouble(balanceInput.getText());
             LocalDate openDate = openDateInput.getValue();
@@ -85,6 +99,10 @@ public class CreateAccController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
+		
+		
+		
+		
 	}
 	
 	private boolean nameExists(String name) {
