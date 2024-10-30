@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainBox" maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.MainController">
+<AnchorPane fx:id="mainBox" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.MainController">
    <children>
-      <AnchorPane prefHeight="66.0" prefWidth="1920.0" style="-fx-background-color: #dddddd;" />
-      <AnchorPane layoutX="96.0" layoutY="118.0" prefHeight="871.0" prefWidth="897.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+      <AnchorPane prefHeight="66.0" prefWidth="1920.0" style="-fx-background-color: #dddddd;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <AnchorPane layoutX="96.0" layoutY="118.0" prefHeight="871.0" prefWidth="897.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;" AnchorPane.bottomAnchor="91.0" AnchorPane.topAnchor="111.0">
          <children>
             <AnchorPane layoutX="42.0" layoutY="27.0" prefHeight="133.0" prefWidth="813.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
                <children>
@@ -22,9 +22,16 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="42.0" layoutY="206.0" prefHeight="638.0" prefWidth="813.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+            <AnchorPane layoutX="42.0" layoutY="206.0" prefHeight="638.0" prefWidth="813.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;" AnchorPane.bottomAnchor="34.0" AnchorPane.topAnchor="204.0">
                <children>
-                  <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToCreateAcc" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Create Account" textFill="WHITE">
+                  <TableView fx:id="AccListView" layoutX="24.0" layoutY="76.0" prefHeight="539.0" prefWidth="760.0" AnchorPane.bottomAnchor="21.0" AnchorPane.topAnchor="76.0">
+                    <columns>
+                      <TableColumn fx:id="AccName" prefWidth="253.3" text="Account Name" />
+                      <TableColumn fx:id="OpBalance" prefWidth="253.3" text="Opening Balance" />
+                        <TableColumn fx:id="OpDate" prefWidth="253.3" text="Opening Date" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToCreateAcc" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Create Account" textFill="WHITE" AnchorPane.topAnchor="14.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -32,14 +39,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <TableView fx:id="AccListView" layoutX="24.0" layoutY="76.0" prefHeight="539.0" prefWidth="760.0">
-                    <columns>
-                      <TableColumn fx:id="AccName" prefWidth="253.3" text="Account Name" />
-                      <TableColumn fx:id="OpBalance" prefWidth="253.3" text="Opening Balance" />
-                        <TableColumn fx:id="OpDate" prefWidth="253.3" text="Opening Date" />
-                    </columns>
-                  </TableView>
-                  <Button layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToTest" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Add Transaction" textFill="WHITE">
+                  <Button layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToTest" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Add Transaction" textFill="WHITE" AnchorPane.topAnchor="14.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
