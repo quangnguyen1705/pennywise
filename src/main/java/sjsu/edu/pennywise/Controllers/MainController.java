@@ -71,8 +71,8 @@ public class MainController implements Initializable{
 		
 	}
 
-	public void switchToTest(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/views/Transaction.fxml"));
+	public void switchToAddTransaction(ActionEvent event) throws IOException {
+		root = FXMLLoader.load(getClass().getResource("/views/AddTransaction.fxml"));
 		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);

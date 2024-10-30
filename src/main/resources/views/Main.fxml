@@ -39,7 +39,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToTest" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Add Transaction" textFill="WHITE" AnchorPane.topAnchor="14.0">
+                  <Button layoutX="451.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToAddTransaction" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Add Transaction" textFill="WHITE" AnchorPane.topAnchor="14.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
