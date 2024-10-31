@@ -5,7 +5,6 @@ package sjsu.edu.pennywise.Controllers;
  */
 
 import java.io.IOException;
-import java.time.LocalDate; 
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,7 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.property.SimpleStringProperty;
