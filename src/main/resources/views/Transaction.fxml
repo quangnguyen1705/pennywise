@@ -3,27 +3,61 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="1080.0" minWidth="1920.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.TransactionController">
+<AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.TransactionController">
    <children>
-      <AnchorPane prefHeight="66.0" prefWidth="1920.0" style="-fx-background-color: #dddddd;" />
-      <AnchorPane layoutX="96.0" layoutY="118.0" prefHeight="871.0" prefWidth="897.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+      <AnchorPane prefHeight="58.0" prefWidth="993.0" style="-fx-background-color: #dddddd;">
          <children>
-            <AnchorPane layoutX="42.0" layoutY="27.0" prefHeight="133.0" prefWidth="813.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+            <Button layoutX="6.0" layoutY="11.0" mnemonicParsing="false" onAction="#switchToMain2" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Back To Main" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children></AnchorPane>
+      <AnchorPane layoutX="48.0" layoutY="81.0" prefHeight="436.0" prefWidth="548.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <AnchorPane layoutX="71.0" layoutY="25.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
                <children>
-                  <Label layoutX="238.0" layoutY="10.0" text="Transaction" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Transaction" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="78.0" />
+                        <Font name="System Bold" size="39.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="42.0" layoutY="206.0" prefHeight="638.0" prefWidth="813.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;" />
-            <Button layoutX="675.0" layoutY="169.0" mnemonicParsing="false" onAction="#switchToMain2" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Back To Main" textFill="WHITE">
+            <TableView layoutX="7.0" layoutY="101.0" prefHeight="316.0" prefWidth="532.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="679.0" layoutY="81.0" prefHeight="436.0" prefWidth="273.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <AnchorPane layoutX="27.0" layoutY="25.0" prefHeight="38.0" prefWidth="183.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+               <children>
+                  <Label layoutX="14.0" layoutY="-4.0" prefHeight="47.0" prefWidth="205.0" text="Transaction Type" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <ListView layoutX="37.0" layoutY="121.0" prefHeight="300.0" prefWidth="200.0" />
+            <TextField layoutX="37.0" layoutY="81.0" promptText="Enter New Type Here" />
+            <Button layoutX="192.0" layoutY="75.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="63.0" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Add" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />

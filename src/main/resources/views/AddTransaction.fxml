@@ -32,7 +32,6 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="transactionTypeInput" layoutX="130.0" layoutY="164.0" prefHeight="24.0" prefWidth="150.0" promptText="Transaction Type" />
             <TextField fx:id="transactionAmount" layoutX="130.0" layoutY="309.0" prefHeight="24.0" prefWidth="150.0" promptText="\$" />
             <TextField fx:id="depositAmount" layoutX="130.0" layoutY="355.0" prefHeight="24.0" prefWidth="150.0" promptText="\$" />
             <DatePicker fx:id="transactionDateInput" layoutX="129.0" layoutY="211.0" prefHeight="24.0" prefWidth="150.0" promptText="Transaction Date" />
@@ -44,6 +43,7 @@
             <Label layoutX="131.0" layoutY="242.0" text="Description" />
             <Label layoutX="130.0" layoutY="292.0" text="Transaction Amount" />
             <Label layoutX="132.0" layoutY="338.0" text="Deposit Amount" />
+            <ChoiceBox fx:id="transactionTypeInput" layoutX="128.0" layoutY="164.0" prefHeight="25.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="339.0" fitWidth="382.5" layoutX="559.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
