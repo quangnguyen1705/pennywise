@@ -16,6 +16,7 @@ public class TransactionList {
 
 	public TransactionList() {
 		//load the data from the transaction list
+		loadTransactionDb();
 	}
 	
 	
