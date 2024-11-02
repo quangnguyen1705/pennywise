@@ -19,6 +19,7 @@ public class App extends Application {
 			DbConnection.initializeDatabase(); // this checks if the db already exists
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
 			Scene scene = new Scene(root);
+			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
