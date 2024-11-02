@@ -67,7 +67,7 @@ public class AddTransactionController {
 		String accID = "";
 		for (Account acc : accountList.getList()) {
 			if (accName.equals(acc.getBankName()))
-				accID = acc.getId();
+				return acc.getId();
 		}
 		return accID;
 
@@ -100,23 +100,48 @@ public class AddTransactionController {
 			}
 
 			// check for existing transaction amount
-			double transasctionAmountDouble = Double.parseDouble(transactionAmount.getText());
-			double depositAmountDouble = Double.parseDouble(depositAmount.getText());
-			if (transasctionAmountDouble < 0 || depositAmountDouble < 0) {
-				errMsg.setText("Invalid input for Transaction Amount or Deposit Amount field");
-				return;
-			} else if (transasctionAmountDouble > 0 && depositAmountDouble > 0) {
+			//check which box amount we are using
+			System.out.println("Entering transaction box phase");
+			String transactionAmount = this.transactionAmount.getText();
+			String depositAmount = this.depositAmount.getText();
+			double transasctionAmountDouble = 0;
+			double depositAmountDouble = 0;
+			//checks if both fields are filled
+			if (transactionAmount.length() > 0 && depositAmount.length() > 0) {
+				//if both fields are filled return an error
+				System.out.println("Transaction: " + transactionAmount + " deposit: " + depositAmount);
 				errMsg.setText("Please fill in only one field Transaction Amount or Deposit Amount");
 				return;
 			}
-
-			// TODO: if transaction type is depositing money into an account, use deposit
-
-			String accID = getAccIDByName(accountName);
-			transactionLst.addTransaction(transactionType, description, transactionDate, transasctionAmountDouble,
-					depositAmountDouble, accID);
-			errMsg.setText("Transaction is saved successful");
-			switchToMain(event);
+			else if (transactionAmount.length() > 0 && depositAmount.length() == 0) {
+				//if transaction field is filled, set the transaction double to the price and the deposit field to 0
+				transasctionAmountDouble = Double.parseDouble(transactionAmount);
+				depositAmountDouble = 0;
+			}
+			else {
+				//if deposit field was filled, set the deposit field to price and the other to 0
+				depositAmountDouble = Double.parseDouble(depositAmount);
+				transasctionAmountDouble = 0;
+				
+			}
+			//double transasctionAmountDouble = Double.parseDouble(transactionAmount.getText());
+			//double depositAmountDouble = Double.parseDouble(depositAmount.getText());
+			//checks if values are negative
+			if (transasctionAmountDouble < 0 || depositAmountDouble < 0) {
+				errMsg.setText("Invalid input for Transaction Amount or Deposit Amount field");
+				return;
+			}
+			else {
+				// TODO: if transaction type is depositing money into an account, use deposit
+				String accID = getAccIDByName(accountName);
+				transactionLst.addTransaction(transactionType, description, transactionDate, transasctionAmountDouble,
+						depositAmountDouble, accID);
+				errMsg.setText("Transaction is saved successful");
+				switchToMain(event);
+			}
+			
+			
+			
 		}catch(NumberFormatException ex) {
 			errMsg.setText("Please enter a number in the transaction amount or deposit amount field");
 			ex.printStackTrace();
