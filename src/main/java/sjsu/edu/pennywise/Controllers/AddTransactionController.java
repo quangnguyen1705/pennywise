@@ -16,12 +16,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.pennywise.Account;
 import sjsu.edu.pennywise.AccountList;
+import sjsu.edu.pennywise.TransactionList;
 
 public class AddTransactionController {
-	
+
 	private Stage stage;
 	private Scene scene;
-	
+
 	@FXML
 	private Label errMsg;
 	@FXML
@@ -36,73 +37,108 @@ public class AddTransactionController {
 	private TextField transactionAmount;
 	@FXML
 	private TextField depositAmount;
-	
+
 	private AccountList accountList = new AccountList();
-	
+	private TransactionList transactionLst = new TransactionList();
+
 	public void initialize() {
 		// Set the current date as the default value
 		transactionDateInput.setValue(LocalDate.now());
 
-        // Prevent users from typing in the DatePicker
+		// Prevent users from typing in the DatePicker
 		transactionDateInput.getEditor().setDisable(true);
-		transactionDateInput.getEditor().setOpacity(1);		
+		transactionDateInput.getEditor().setOpacity(1);
 		chosenAccount.getItems().add("--Choose an Account--");
 		chosenAccount.getItems().addAll(getAccountsByName(accountList.getList()));
 		chosenAccount.getSelectionModel().selectFirst();
 	}
-	
+
 	private ArrayList<String> getAccountsByName(ArrayList<Account> accList) {
 		// TODO Auto-generated method stub
 		ArrayList<String> list = new ArrayList<>();
-		for (Account acc: accList) {
+		for (Account acc : accList) {
 			list.add(acc.getBankName());
 		}
-		
+
 		return list;
 	}
 
+	private String getAccIDByName(String accName) {
+		String accID = "";
+		for (Account acc : accountList.getList()) {
+			if (accName.equals(acc.getBankName()))
+				accID = acc.getId();
+		}
+		return accID;
+
+	}
+
+	public void newTransaction(@SuppressWarnings("exports") ActionEvent event) {
+
+		errMsg.setText("");
+		try {
+			// check for existing account
+			String accountName = chosenAccount.getValue();
+			if (accountName.equals("--Choose an Account--")) {
+				errMsg.setText("Please select an Account");
+				return;
+			}
+			// check transaction type
+			String transactionType = transactionTypeInput.getText();
+			if (transactionType.equals("")) {
+				errMsg.setText("Please Fill out Transaction Type fields");
+				return;
+			}
+
+			// transactionDateInput
+			LocalDate transactionDate = transactionDateInput.getValue();
+			// check for existing description
+			String description = descriptionInput.getText();
+			if (description.equals("")) {
+				errMsg.setText("Please Fill out Transaction Description fields");
+				return;
+			}
+
+			// check for existing transaction amount
+			double transasctionAmountDouble = Double.parseDouble(transactionAmount.getText());
+			double depositAmountDouble = Double.parseDouble(depositAmount.getText());
+			if (transasctionAmountDouble < 0 || depositAmountDouble < 0) {
+				errMsg.setText("Invalid input for Transaction Amount or Deposit Amount field");
+				return;
+			} else if (transasctionAmountDouble > 0 && depositAmountDouble > 0) {
+				errMsg.setText("Please fill in only one field Transaction Amount or Deposit Amount");
+				return;
+			}
+
+			// TODO: if transaction type is depositing money into an account, use deposit
+
+			String accID = getAccIDByName(accountName);
+			transactionLst.addTransaction(transactionType, description, transactionDate, transasctionAmountDouble,
+					depositAmountDouble, accID);
+			errMsg.setText("Transaction is saved successful");
+			switchToMain(event);
+		}catch(NumberFormatException ex) {
+			errMsg.setText("Please enter a number in the transaction amount or deposit amount field");
+			ex.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	public void switchToMain(ActionEvent event) throws IOException {
-	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
-	    AnchorPane root = loader.load();
-        
-	    //Refreshing accounts list
-        MainController mainController = loader.getController();
-        mainController.loadAccounts(); 
-        
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		AnchorPane root = loader.load();
+
+		// Refreshing accounts list
+		MainController mainController = loader.getController();
+		mainController.loadAccounts();
+
+		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-		
-		
-		
-		
-	}
 
-	public void newTransaction(ActionEvent event) {
-		errMsg.setText("");
-		//check for existing account
-		String accountName = chosenAccount.getValue();
-		if (accountName.equals("--Choose an Account--")) {
-			errMsg.setText("Please select an Account");
-			return;
-		}
-		//check transaction type
-		//TODO: check to see if the type is fetched from a list
-		
-		//get variable for transaction date
-		LocalDate date = transactionDateInput.getValue();
-		
-		//check for existing description
-		String description = descriptionInput.getText();
-		if (description.equals("")) {
-			errMsg.setText("Please enter description");
-			return;
-		}
-		
-		//check for existing transaction amount
-		//TODO: if transaction type is depositing money into an account, use deposit amount instead
-		
 	}
-
 }

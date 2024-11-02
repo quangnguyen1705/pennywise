@@ -19,9 +19,9 @@ public class TransactionList {
 	}
 	
 	
-	public void addTransaction(String type, String description, LocalDate date, double amount, String accID) {
+	public void addTransaction(String type, String description, LocalDate date, double paymentAmount, double depositAccmount, String accID) {
 		
-		Transaction newTransaction = new Transaction(type, description, date, amount, accID); // do this so that separate objects arent created
+		Transaction newTransaction = new Transaction(type, description, date, paymentAmount,depositAccmount, accID); // do this so that separate objects arent created
 
 		list.add(newTransaction);
 		saveTransaction(newTransaction);
@@ -30,7 +30,7 @@ public class TransactionList {
 	
 	private void saveTransaction(Transaction transaction) {
 		
-		String sql = "INSERT INTO transactions (accID, description, type, date, amount) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO transactions (account_id, transaction_description, transaction_type, transaction_date, payment_amount,deposit_amount) VALUES (?, ?, ?, ?, ?,?)";
 		
 		try (Connection conn = DbConnection.getConnection();
 	             PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -38,37 +38,41 @@ public class TransactionList {
 	            statement.setString(1, transaction.getAccID());
 	            statement.setString(2, transaction.getDescription());
 	            statement.setString(3, transaction.getType());
-	            statement.setDouble(5, transaction.getAmount());
+	            statement.setDouble(5, transaction.getPaymentAmount());
+	            statement.setDouble(6, transaction.getDepositAmount());
 
 	            //format for SQL
 	            Date formattedDate = Date.valueOf(transaction.getDate());
 	            statement.setDate(4, formattedDate);
 	            statement.executeUpdate();
-	            System.out.println("Account saved to database successfully.");
+	            System.out.println("Transaction saved to database successfully.");
+	            conn.close();
 	        } catch (SQLException error) {
 	            System.out.println("Error saving account to database: " + error.getMessage());
 	        }
 		
 	}
 	
-	private void loadAccountsDb() {
+	private void loadTransactionDb() {
         list.clear();
-        String sql = "SELECT id, bank_name, open_balance, open_date FROM accounts ORDER BY open_date DESC";
+        String sql = "SELECT account_id, transaction_description, transaction_type, transaction_date, payment_amount,deposit_amount FROM transactions ORDER BY transaction_date DESC";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                String accID = rs.getString("accID");
-                String description = rs.getString("description");
-                String type = rs.getString("type");
-                LocalDate date = rs.getDate("date").toLocalDate();
-                double amount = rs.getDouble("amount");
+                String accID = rs.getString("account_id");
+                String description = rs.getString("transaction_description");
+                String type = rs.getString("transaction_type");
+                LocalDate date = rs.getDate("transaction_date").toLocalDate();
+                double paymentAmount = rs.getDouble("payment_amount");
+                double depositAmount = rs.getDouble("deposit_amount");
 
-                list.add(new Transaction(type, description, date, amount, accID));
+                list.add(new Transaction(type, description, date, paymentAmount,depositAmount, accID));
             }
             System.out.println("Accounts loaded successfully.");
+            conn.close();
         } catch (SQLException e) {
             System.out.println("Error in loading accounts: " + e.getMessage());
         }
