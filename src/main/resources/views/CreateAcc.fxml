@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -10,34 +11,40 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.CreateAccController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.pennywise.Controllers.CreateAccController">
    <children>
-      <ImageView fitHeight="454.0" fitWidth="427.0" layoutX="1072.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="351.0" fitWidth="331.0" layoutX="534.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Image/piggy_bank_PNG52.jpg" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="217.0" layoutY="201.0" prefHeight="678.0" prefWidth="597.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+      <AnchorPane layoutX="58.0" layoutY="36.0" prefHeight="468.0" prefWidth="374.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
          <children>
-            <Text layoutX="85.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Account" textAlignment="CENTER" wrappingWidth="427.0">
+            <Text layoutX="85.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Account" textAlignment="CENTER" wrappingWidth="206.0">
                <font>
-                  <Font size="36.0" />
+                  <Font size="18.0" />
                </font>
             </Text>
-            <TextField fx:id="accountNameInput" layoutX="149.0" layoutY="214.0" prefHeight="48.0" prefWidth="300.0" promptText="Example: Chase Checking" />
-            <TextField fx:id="balanceInput" layoutX="149.0" layoutY="410.0" prefHeight="48.0" prefWidth="300.0" promptText="Opening Balance" />
-            <DatePicker fx:id="openDateInput" layoutX="149.0" layoutY="315.0" prefHeight="48.0" prefWidth="300.0" promptText="MM/DD/YY" />
-            <Button layoutX="203.0" layoutY="521.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="31.0" prefWidth="192.0" style="-fx-background-color: blue; -fx-border-color: white;" text="Create Account" textFill="WHITE" />
+            <TextField fx:id="accountNameInput" layoutX="112.0" layoutY="146.0" prefHeight="24.0" prefWidth="150.0" promptText="Example: Chase Checking" />
+            <TextField fx:id="balanceInput" layoutX="112.0" layoutY="247.0" prefHeight="24.0" prefWidth="150.0" promptText="\$" />
+            <DatePicker fx:id="openDateInput" layoutX="112.0" layoutY="198.0" prefHeight="24.0" prefWidth="150.0" promptText="MM/DD/YY" />
+            <Button layoutX="112.0" layoutY="310.0" mnemonicParsing="false" onAction="#createAccount" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: blue; -fx-border-color: white;" text="Create Account" textFill="WHITE" />
             <Button layoutX="24.0" layoutY="21.0" mnemonicParsing="false" onAction="#switchToMain" style="-fx-background-color: #dddddd;" text="← Back ">
                <font>
-                  <Font size="33.0" />
+                  <Font size="16.5" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Label fx:id="errMSG" alignment="CENTER" layoutX="3.0" layoutY="470.0" prefWidth="597.0" textAlignment="CENTER" textFill="RED">
+            <Label fx:id="errMSG" alignment="CENTER" layoutX="137.0" layoutY="272.0" prefHeight="21.0" prefWidth="101.0" textAlignment="CENTER" textFill="RED">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <Label layoutX="112.0" layoutY="124.0" text="Account Name:" />
+            <Label layoutX="112.0" layoutY="175.0" text="Opening Date:" />
+            <Label layoutX="112.0" layoutY="226.0" text="Opening Balance:" />
          </children>
       </AnchorPane>
    </children>
