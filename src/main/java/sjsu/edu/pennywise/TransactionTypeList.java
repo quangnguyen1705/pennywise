@@ -27,10 +27,15 @@ public class TransactionTypeList {
 			System.out.println("Account saved to database successfully.");
 			conn.close();
 		} catch (SQLException error) {
-			System.out.println("Error saving account to database: " + error.getMessage());
-			return "Error";
-		}
-		return "Success";
+	        if (error.getMessage().contains("UNIQUE")) {
+	            System.out.println("Error: Duplicate transaction type name found.");
+	            return "Duplicate Type Found";
+	        } else {
+	            System.out.println("Error saving transaction type to database: " + error.getMessage());
+	            return "Error";
+	        }
+	    }
+	    return "Success";
 	}
 	
 	
