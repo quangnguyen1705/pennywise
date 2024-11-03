@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import sjsu.edu.pennywise.Account;
 import sjsu.edu.pennywise.AccountList;
 import sjsu.edu.pennywise.TransactionList;
+import sjsu.edu.pennywise.TransactionTypeList;
 
 public class AddTransactionController {
 
@@ -28,7 +29,7 @@ public class AddTransactionController {
 	@FXML
 	private ChoiceBox<String> chosenAccount;
 	@FXML
-	private TextField transactionTypeInput;
+	private ChoiceBox<String> transactionTypeInput;
 	@FXML
 	private DatePicker transactionDateInput;
 	@FXML
@@ -40,6 +41,9 @@ public class AddTransactionController {
 
 	private AccountList accountList = new AccountList();
 	private TransactionList transactionLst = new TransactionList();
+	private TransactionTypeList typeList = new TransactionTypeList();
+	private ArrayList<String> types = new ArrayList<>();
+
 
 	public void initialize() {
 		// Set the current date as the default value
@@ -48,9 +52,10 @@ public class AddTransactionController {
 		// Prevent users from typing in the DatePicker
 		transactionDateInput.getEditor().setDisable(true);
 		transactionDateInput.getEditor().setOpacity(1);
-		chosenAccount.getItems().add("--Choose an Account--");
 		chosenAccount.getItems().addAll(getAccountsByName(accountList.getList()));
 		chosenAccount.getSelectionModel().selectFirst();
+		transactionTypeInput.getItems().addAll(typeList.getList());
+		transactionTypeInput.getSelectionModel().selectFirst();
 	}
 
 	private ArrayList<String> getAccountsByName(ArrayList<Account> accList) {
@@ -77,15 +82,16 @@ public class AddTransactionController {
 
 		errMsg.setText("");
 		try {
-			// check for existing account
+			//check accountName
 			String accountName = chosenAccount.getValue();
-			if (accountName.equals("--Choose an Account--")) {
-				errMsg.setText("Please select an Account");
+			if (accountName == null) {
+				errMsg.setText("Please Fill out Transaction Type fields");
 				return;
 			}
+			
 			// check transaction type
-			String transactionType = transactionTypeInput.getText();
-			if (transactionType.equals("")) {
+			String transactionType = transactionTypeInput.getValue();
+			if (transactionType == null) {
 				errMsg.setText("Please Fill out Transaction Type fields");
 				return;
 			}
