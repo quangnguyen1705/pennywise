@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sjsu.edu.pennywise.Account;
+import sjsu.edu.pennywise.AccountList;
 import sjsu.edu.pennywise.Transaction;
 import sjsu.edu.pennywise.TransactionList;
 import sjsu.edu.pennywise.TransactionTypeList;
@@ -52,6 +53,7 @@ public class TransactionController {
 	
 	private TransactionTypeList typeList = new TransactionTypeList();
 	private TransactionList transactions = new TransactionList();
+	private AccountList accList = new AccountList();
 	
 	public void initialize() {
 		listedTypes.getItems().addAll(typeList.getList());
@@ -59,6 +61,11 @@ public class TransactionController {
 		typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 		descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 		dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+		accColumn.setCellValueFactory(cellData -> {
+			Transaction t = cellData.getValue();
+			//fetch account by ID
+			//get name from account object
+		});
 		
 		loadTransactions();
 		
