@@ -25,6 +25,17 @@ import sjsu.edu.pennywise.AccountList;
 import sjsu.edu.pennywise.Transaction;
 import sjsu.edu.pennywise.TransactionList;
 import sjsu.edu.pennywise.TransactionTypeList;
+import sjsu.edu.pennywise.Models.DbConnection;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TransactionController {
 	
@@ -50,33 +61,82 @@ public class TransactionController {
 	private TableColumn<Transaction, String> dateColumn;
 	@FXML
 	private TableColumn<Transaction, Double> amtColumn;
+	@FXML
+	private TableColumn<Transaction, Double> paymentAmountColumn;
+	@FXML
+	private TableColumn<Transaction, Double> depositAmountColumn;
+
 	
 	private TransactionTypeList typeList = new TransactionTypeList();
 	private TransactionList transactions = new TransactionList();
 	private AccountList accList = new AccountList();
 	
 	public void initialize() {
-		listedTypes.getItems().addAll(typeList.getList());
-		//initialize cells
-		typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-		descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-		dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
-		accColumn.setCellValueFactory(cellData -> {
-			Transaction t = cellData.getValue();
-			//fetch account by ID
-			//get name from account object
-		});
-		
-		loadTransactions();
-		
+	    listedTypes.getItems().addAll(typeList.getList());
+
+	    accColumn.setCellValueFactory(cellData -> {
+	        Transaction transaction = cellData.getValue();
+	        Account account = accList.getAccountById(transaction.getAccID());
+	        if (account != null) {
+	            return new SimpleStringProperty(account.getBankName());
+	        } else {
+	            return new SimpleStringProperty("Unknown Account");
+	        }
+	    });
+
+	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+	    descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+	    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+
+	    paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+	    depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
+
+	    loadTransactions();
 	}
-	
+
 	private void loadTransactions() {
-		ObservableList<Transaction> transactions = FXCollections.observableArrayList(this.transactions.getList());
-		TransactionView.setItems(transactions);
+	    ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
+
+	    try (Connection conn = DbConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM transactions ORDER BY transaction_date DESC");
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        this.transactions.getList().clear();
+
+	        while (rs.next()) {
+	            String accountId = rs.getString("account_id");
+	            String transactionType = rs.getString("transaction_type");
+
+	            long timestamp = rs.getLong("transaction_date");
+	            LocalDate transactionDate = Instant.ofEpochMilli(timestamp)
+	                                               .atZone(ZoneId.systemDefault())
+	                                               .toLocalDate();
+
+	            String description = rs.getString("transaction_description");
+	            double paymentAmount = rs.getDouble("payment_amount");
+	            double depositAmount = rs.getDouble("deposit_amount");
+
+	            double amount;
+	            if (paymentAmount > 0) {
+	                amount = -paymentAmount;
+	            } else {
+	                amount = depositAmount;
+	            }
+
+	            if (accList.getAccountById(accountId) != null) {
+	                Transaction transaction = new Transaction(transactionType, description, transactionDate, paymentAmount, depositAmount, accountId);
+	                this.transactions.getList().add(transaction);
+	            }
+	        }
+
+	    } catch (SQLException error) {
+	        System.out.println("Error loading transactions from database: " + error.getMessage());
+	    }
+
+	    transactionList.addAll(this.transactions.getList());
+	    TransactionView.setItems(transactionList);
 	}
-	
-	
+
 	
 	public void switchToMain2(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
