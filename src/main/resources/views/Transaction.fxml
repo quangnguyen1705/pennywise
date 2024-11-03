@@ -27,17 +27,20 @@
          <children>
             <AnchorPane layoutX="71.0" layoutY="25.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
                <children>
-                  <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Transaction" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Transactions" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="39.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <TableView layoutX="7.0" layoutY="101.0" prefHeight="316.0" prefWidth="532.0">
+            <TableView fx:id="TransactionView" layoutX="7.0" layoutY="101.0" prefHeight="316.0" prefWidth="532.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                  <TableColumn fx:id="accColumn" prefWidth="106.4" text="Account" />
+                <TableColumn fx:id="typeColumn" prefWidth="106.4" text="Type" />
+                <TableColumn fx:id="descColumn" prefWidth="106.4" text="Description" />
+                  <TableColumn fx:id="dateColumn" prefWidth="106.4" text="Date" />
+                  <TableColumn fx:id="amtColumn" prefWidth="106.4" text="Amount" />
               </columns>
             </TableView>
          </children>

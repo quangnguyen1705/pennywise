@@ -1,7 +1,13 @@
 package sjsu.edu.pennywise.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +15,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sjsu.edu.pennywise.Account;
+import sjsu.edu.pennywise.Transaction;
+import sjsu.edu.pennywise.TransactionList;
 import sjsu.edu.pennywise.TransactionTypeList;
 
 public class TransactionController {
@@ -25,13 +37,38 @@ public class TransactionController {
 	private ListView<String> listedTypes;
 	@FXML
 	private Label errMsg;
+	@FXML 
+	private TableView<Transaction> TransactionView;
+	@FXML
+	private TableColumn<Transaction, String> accColumn;
+	@FXML
+	private TableColumn<Transaction, String> typeColumn;
+	@FXML
+	private TableColumn<Transaction, String> descColumn;
+	@FXML
+	private TableColumn<Transaction, String> dateColumn;
+	@FXML
+	private TableColumn<Transaction, Double> amtColumn;
 	
 	private TransactionTypeList typeList = new TransactionTypeList();
+	private TransactionList transactions = new TransactionList();
 	
 	public void initialize() {
 		listedTypes.getItems().addAll(typeList.getList());
+		//initialize cells
+		typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+		descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+		dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+		
+		loadTransactions();
 		
 	}
+	
+	private void loadTransactions() {
+		ObservableList<Transaction> transactions = FXCollections.observableArrayList(this.transactions.getList());
+		TransactionView.setItems(transactions);
+	}
+	
 	
 	
 	public void switchToMain2(ActionEvent event) throws IOException {

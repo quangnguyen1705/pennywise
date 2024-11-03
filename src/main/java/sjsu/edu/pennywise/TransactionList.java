@@ -79,5 +79,9 @@ public class TransactionList {
         }
     }
 	
+	public ArrayList<Transaction> getList(){
+		return new ArrayList<>(list);
+	}
+	
 
 }
