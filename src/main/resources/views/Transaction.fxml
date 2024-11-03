@@ -36,11 +36,12 @@
             </AnchorPane>
             <TableView fx:id="TransactionView" layoutX="7.0" layoutY="101.0" prefHeight="316.0" prefWidth="532.0">
               <columns>
-                  <TableColumn fx:id="accColumn" prefWidth="106.4" text="Account" />
-                <TableColumn fx:id="typeColumn" prefWidth="106.4" text="Type" />
-                <TableColumn fx:id="descColumn" prefWidth="106.4" text="Description" />
-                  <TableColumn fx:id="dateColumn" prefWidth="106.4" text="Date" />
-                  <TableColumn fx:id="amtColumn" prefWidth="106.4" text="Amount" />
+				<TableColumn fx:id="accColumn" prefWidth="88.6" text="Account" />
+				<TableColumn fx:id="typeColumn" prefWidth="88.6" text="Type" />
+				<TableColumn fx:id="descColumn" prefWidth="88.6" text="Description" />
+				<TableColumn fx:id="paymentAmountColumn" prefWidth="88.6" text="Transaction" />
+				<TableColumn fx:id="depositAmountColumn" prefWidth="88.6" text="Deposit" />
+				<TableColumn fx:id="dateColumn" prefWidth="88.67" text="Date" />
               </columns>
             </TableView>
          </children>
