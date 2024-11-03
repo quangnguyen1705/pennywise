@@ -16,8 +16,14 @@ public class Transaction {
 		this.accID = accID;
 		this.description = description;
 		this.date = date;
-		this.setPaymentAmount(paymentAmount);
-		this.depositAmount = depositAmount;
+		
+	    if (paymentAmount > 0) { // logic when payment is present and deposit isnt
+	        this.paymentAmount = paymentAmount;
+	        this.depositAmount = 0;
+	    } else if (depositAmount > 0) { // logic when deposit is present and payment is not
+	        this.depositAmount = depositAmount;
+	        this.paymentAmount = 0;
+	    }
 	}
 
 	public String getType() {
