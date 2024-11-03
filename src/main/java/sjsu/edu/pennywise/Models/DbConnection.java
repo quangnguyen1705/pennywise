@@ -39,6 +39,18 @@ public class DbConnection {
         } catch (SQLException e) {
             System.out.println("Error initializing database: " + e.getMessage());
         }
+        
+        createTable = "CREATE TABLE IF NOT EXISTS transaction_types (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +              
+                "type_name TEXT UNIQUE NOT NULL); ";
+
+		try (Connection conn = getConnection();
+			Statement statement = conn.createStatement()) {
+			statement.execute(createTable);
+			System.out.println("Accounts table created or already exists.");
+		} catch (SQLException e) {
+			System.out.println("Error initializing database: " + e.getMessage());
+		}
     }
     
     //Make sure dates are in a standardized format
