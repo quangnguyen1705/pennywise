@@ -78,5 +78,15 @@ public class AccountList {
 	public ArrayList<Account> getList() { // return accounts list
 		return new ArrayList<>(accountList);
 	}
+	
+   
+    public Account getAccountById(String accountId) {
+        for (Account account : accountList) {
+            if (account.getId().equals(accountId)) {
+                return account;
+            }
+        }
+        return null;
+    }
 
 }
