@@ -4,7 +4,7 @@ module sjsu.edu.pennywise {
 	 requires java.sql;
 	 requires javafx.base;
 	requires javafx.graphics;
-	 exports sjsu.edu.pennywise;
-	 exports sjsu.edu.pennywise.Controllers;
-	 opens sjsu.edu.pennywise.Controllers to javafx.fxml;
+	 exports sjsu.edu.application;
+	 exports sjsu.edu.application.Controllers;
+	 opens sjsu.edu.application.Controllers to javafx.fxml;
 }
