@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS transactions (
     transaction_description TEXT NOT NULL,
     payment_amount DOUBLE NOT NULL DEFAULT 0,
     deposit_amount DOUBLE NOT NULL DEFAULT 0,
+    
     CHECK ((payment_amount = 0 AND deposit_amount > 0) OR -- check that either payment_amount or deposit_amount is present, and not both
            (payment_amount > 0 AND deposit_amount = 0)),
-    FOREIGN KEY (account_id) REFERENCES accounts(id) -- account_id has to reference an account in the accounts table 
-    FOREIGN KEY (transaction_type) REFERENCES transaction_types(type_name) --valid transaction type
+    FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE, -- account_id has to reference an account in the accounts table. also deleted transactions of an account if account is deleted. 
+    FOREIGN KEY (transaction_type) REFERENCES transaction_types(type_name) ON DELETE CASCADE --valid transaction type. deletes transactions of a transaction type if transaction type is deleted. 
 );
 
 
@@ -26,4 +27,21 @@ CREATE TABLE IF NOT EXISTS transactions (
 CREATE TABLE IF NOT EXISTS transaction_types(
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	type_name TEXT UNIQUE NOT NULL -- make sure it's a unqique name
-)
+);
+
+-- Schedule transaction Type
+CREATE TABLE IF NOT EXISTS scheduled_transactions (
+	id INTEGER PRIMARY KEY AUTOINCREMENT, 
+	schedule_name TEXT NOT NULL UNIQUE, 
+	account_id TEXT NOT NULL, 
+	transaction_type TEXT NOT NULL, 
+	frequency TEXT NOT NULL DEFAULT 'Monthly', 
+	due_date INTEGER NOT NULL, 
+	payment_amount DOUBLE NOT NULL, 
+	
+	CHECK (payment_amount > 0),
+	
+	FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE, -- deletes schedule transactions of account when account is deleted from accounts db
+	FOREIGN KEY (transaction_type) REFERENCES transaction_types(type_name) ON DELETE CASCADE-- deletes schedule transactions in schedule transactoins db when it's referenced transaction type is deleted
+	
+);
