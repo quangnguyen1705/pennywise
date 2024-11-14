@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS accounts(
 -- Transactions Database in SQLite
 CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_id TEXT NOT NULL,
+    account_id Integer NOT NULL,
     transaction_type_id INTEGER NOT NULL, 
     transaction_date DATE NOT NULL, 
     transaction_description TEXT NOT NULL,
@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id) ON DELETE CASCADE --valid transaction type. deletes transactions of a transaction type if the transaction type is deleted. 
 );
 
-
 -- Transaction Types database in sqlite
 CREATE TABLE IF NOT EXISTS transaction_types(
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +32,7 @@ CREATE TABLE IF NOT EXISTS transaction_types(
 CREATE TABLE IF NOT EXISTS scheduled_transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     schedule_name TEXT NOT NULL UNIQUE, 
-    account_id TEXT NOT NULL, 
+    account_id integer NOT NULL, 
     transaction_type _id Integer NOT NULL, 
     frequency TEXT NOT NULL DEFAULT 'Monthly', 
     due_date INTEGER NOT NULL, 
@@ -41,7 +40,7 @@ CREATE TABLE IF NOT EXISTS scheduled_transactions (
     
     CHECK (payment_amount > 0),
     
-    FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE, -- deletes schedule transactions of account when account is deleted from accounts db
-    FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id) ON DELETE CASCADE-- deletes schedule transactions in schedule transactions db when its referenced transaction type is deleted
+    FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE, 
+    FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id) ON DELETE CASCADE
     
 );
