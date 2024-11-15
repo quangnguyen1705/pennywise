@@ -147,6 +147,15 @@ public class TransactionController {
 		
 	}
 	
+	public void switchToScheduledTransaction(ActionEvent event) throws IOException {
+		root = FXMLLoader.load(getClass().getResource("/views/ScheduledTransactions.fxml"));
+		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+	
 	public void addTypeOP(ActionEvent event) {
 		String type = typeInputField.getText();
 		if (type.equals("")){
