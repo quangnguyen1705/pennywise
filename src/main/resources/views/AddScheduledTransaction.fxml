@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="540.0" maxWidth="960.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.application.Controllers.AddTransactionController">
+   <children>
+      <AnchorPane layoutX="52.0" layoutY="45.0" prefHeight="472.0" prefWidth="408.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <Text layoutX="23.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add New Scheduled Transaction" textAlignment="CENTER" wrappingWidth="365.0">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button layoutX="130.0" layoutY="411.0" mnemonicParsing="false" onAction="#newTransaction" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: blue; -fx-border-color: white;" text="Add Transaction" textFill="WHITE" />
+            <Button layoutX="25.0" layoutY="24.0" mnemonicParsing="false" onAction="#switchToMain" style="-fx-background-color: #dddddd;" text="← Back ">
+               <font>
+                  <Font size="16.5" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <TextField fx:id="dayValue" layoutX="130.0" layoutY="309.0" prefHeight="24.0" prefWidth="150.0" promptText="Ex: 15=15th of Every Month">
+               <font>
+                  <Font size="10.0" />
+               </font></TextField>
+            <TextField fx:id="amount" layoutX="130.0" layoutY="355.0" prefHeight="24.0" prefWidth="150.0" promptText="\$" />
+            <ChoiceBox fx:id="chosenAccount" layoutX="130.0" layoutY="168.0" prefHeight="24.0" prefWidth="150.0" />
+            <Label fx:id="errMsg" alignment="CENTER" layoutX="4.0" layoutY="386.0" prefHeight="27.0" prefWidth="398.0" textFill="RED" />
+            <Label layoutX="130.0" layoutY="146.0" text="Account" />
+            <Label layoutX="130.0" layoutY="196.0" text="Transaction Type" />
+            <Label layoutX="130.0" layoutY="246.0" text="Frequency" />
+            <Label layoutX="130.0" layoutY="292.0" text="Due Date" />
+            <Label layoutX="132.0" layoutY="338.0" text="Amount" />
+            <ChoiceBox fx:id="transactionTypeInput" layoutX="128.0" layoutY="218.0" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="paymentName" layoutX="131.0" layoutY="121.0" prefHeight="24.0" prefWidth="150.0" promptText="Ex: Water Bill" />
+            <Label layoutX="126.0" layoutY="98.0" text="Scheduled Payment Name" />
+            <ChoiceBox fx:id="transactionTypeInput1" layoutX="128.0" layoutY="263.0" prefHeight="25.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="304.0" fitWidth="497.0" layoutX="469.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Image/recurringPayments.png" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+   </children>
+</AnchorPane>
