@@ -20,9 +20,9 @@ public class TransactionList {
 	}
 	
 	
-	public void addTransaction(int type, String description, LocalDate date, double paymentAmount, double depositAccmount, String accID) {
+	public void addTransaction(int typeId, String description, LocalDate date, double paymentAmount, double depositAmount, String accID) {
 		
-		Transaction newTransaction = new Transaction(type, description, date, paymentAmount,depositAccmount, accID); // do this so that separate objects arent created
+		Transaction newTransaction = new Transaction(typeId, description, date, paymentAmount,depositAmount, accID); // do this so that separate objects arent created
 
         /* if (type <= 0) {
             throw new IllegalArgumentException("Transaction type must be a positive integer.");
