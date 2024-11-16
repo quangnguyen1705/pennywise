@@ -23,11 +23,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.ScheduleTransactionList;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
 import sjsu.edu.application.Models.DbConnection;
-import sjsu.edu.application.Models.ScheduleTransaction;
+import sjsu.edu.application.ScheduleTransaction;
 
 public class ScheduleTransactionController {
 	
@@ -46,11 +47,11 @@ public class ScheduleTransactionController {
 	@FXML
 	private TableColumn<ScheduleTransaction, String> paymentAmountColumn;
 	@FXML
-	private TableColumn<ScheduleTransaction, Integer> dateColumn;
+	private TableColumn<ScheduleTransaction, LocalDate> dateColumn;
 	@FXML
 	private TableColumn<ScheduleTransaction, Double> freqColumn;
 	
-	//private TransactionList transactions = new TransactionList(); change to scheduledList
+	private ScheduleTransactionList transactions = ScheduleTransactionList.getInstance(); 
 	private AccountList accList = new AccountList();
 	
 	public void initialize() {
@@ -86,28 +87,35 @@ public class ScheduleTransactionController {
 
 	        while (rs.next()) {
 	            String accountId = rs.getString("account_id");
-	            String transactionType = rs.getString("transaction_type");
-
-
+	            int transactionType = rs.getInt("transaction_type_id");
+	            String frequency = rs.getString("frequency");
+	            long timestamp = rs.getLong("transaction_date");
+	            LocalDate date = Instant.ofEpochMilli(timestamp)
+	                                               .atZone(ZoneId.systemDefault())
+	                                               .toLocalDate();
 	            String name = rs.getString("schedule_name");
 	            double paymentAmount = rs.getDouble("payment_amount");
 
 	            double amount;
 	            if (paymentAmount > 0) {
 	                amount = -paymentAmount;
-	            } 
+	            } else {
+	                amount = paymentAmount;
+	            }
 	            if (accList.getAccountById(accountId) != null) {
-	                ScheduleTransaction transaction = new ScheduleTransaction(transactionType, name, paymentAmount, accountId);
+	            	//public ScheduleTransaction(String schedName, String accID, int type, String frequency, LocalDate date, double paymentAmount)
+	                ScheduleTransaction transaction = new ScheduleTransaction(name, accountId, transactionType, frequency, date, amount);
 	                this.transactions.getList().add(transaction);
 	            }
 	        }
 
 	    } catch (SQLException error) {
 	        System.out.println("Error loading transactions from database: " + error.getMessage());
+	        return;
 	    }
 
 	    transactionList.addAll(this.transactions.getList());
-	    TransactionView.setItems(transactionList);
+	    ScheduledView.setItems(transactionList);
 	}
 	
 	public void switchToMain2(ActionEvent event) throws IOException {
