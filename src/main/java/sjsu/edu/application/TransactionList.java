@@ -20,10 +20,19 @@ public class TransactionList {
 	}
 	
 	
-	public void addTransaction(String type, String description, LocalDate date, double paymentAmount, double depositAccmount, String accID) {
+	public void addTransaction(int type, String description, LocalDate date, double paymentAmount, double depositAccmount, String accID) {
 		
 		Transaction newTransaction = new Transaction(type, description, date, paymentAmount,depositAccmount, accID); // do this so that separate objects arent created
 
+        /* if (type <= 0) {
+            throw new IllegalArgumentException("Transaction type must be a positive integer.");
+        }
+
+        if (paymentAmount <= 0 && depositAmount <= 0) {
+            throw new IllegalArgumentException("Either paymentAmount or depositAmount must be greater than 0.");
+        } */
+
+		
 		list.add(newTransaction);
 		saveTransaction(newTransaction);
 	
@@ -31,14 +40,14 @@ public class TransactionList {
 	
 	private void saveTransaction(Transaction transaction) {
 		
-		String sql = "INSERT INTO transactions (account_id, transaction_description, transaction_type, transaction_date, payment_amount,deposit_amount) VALUES (?, ?, ?, ?, ?,?)";
+		String sql = "INSERT INTO transactions (account_id, transaction_description, transaction_type_id, transaction_date, payment_amount,deposit_amount) VALUES (?, ?, ?, ?, ?,?)";
 		
 		try (Connection conn = DbConnection.getConnection();
 	             PreparedStatement statement = conn.prepareStatement(sql)) {
 	             
 	            statement.setString(1, transaction.getAccID());
 	            statement.setString(2, transaction.getDescription());
-	            statement.setString(3, transaction.getType());
+	            statement.setInt(3, transaction.getType());
 	            statement.setDouble(5, transaction.getPaymentAmount());
 	            statement.setDouble(6, transaction.getDepositAmount());
 
@@ -56,7 +65,7 @@ public class TransactionList {
 	
 	private void loadTransactionDb() {
         list.clear();
-        String sql = "SELECT account_id, transaction_description, transaction_type, transaction_date, payment_amount,deposit_amount FROM transactions ORDER BY transaction_date DESC";
+        String sql = "SELECT account_id, transaction_description, transaction_type_id, transaction_date, payment_amount,deposit_amount FROM transactions ORDER BY transaction_date DESC";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -65,7 +74,7 @@ public class TransactionList {
             while (rs.next()) {
                 String accID = rs.getString("account_id");
                 String description = rs.getString("transaction_description");
-                String type = rs.getString("transaction_type");
+                int type = rs.getInt("transaction_type_id");
                 LocalDate date = rs.getDate("transaction_date").toLocalDate();
                 double paymentAmount = rs.getDouble("payment_amount");
                 double depositAmount = rs.getDouble("deposit_amount");
@@ -74,8 +83,8 @@ public class TransactionList {
             }
             System.out.println("Accounts loaded successfully.");
             conn.close();
-        } catch (SQLException e) {
-            System.out.println("Error in loading accounts: " + e.getMessage());
+        } catch (SQLException error) {
+            System.out.println("Error in loading accounts: " + error.getMessage());
         }
     }
 	
