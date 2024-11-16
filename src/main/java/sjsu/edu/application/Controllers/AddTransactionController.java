@@ -97,6 +97,13 @@ public class AddTransactionController {
 				return;
 			}
 
+	        // find transacton_type_id from transactontypelist
+	        int transactionTypeId = typeList.getTransactionTypeIdByName(transactionType);
+	        if (transactionTypeId == -1) {
+	            errMsg.setText("Invalid transaction type.");
+	            return;
+	        }
+
 			// transactionDateInput
 			LocalDate transactionDate = transactionDateInput.getValue();
 			// check for existing description
@@ -144,7 +151,7 @@ public class AddTransactionController {
 			else {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
-				transactionLst.addTransaction(transactionType, description, transactionDate, transasctionAmountDouble,
+				transactionLst.addTransaction(transactionTypeId, description, transactionDate, transasctionAmountDouble,
 						depositAmountDouble, accID);
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);
