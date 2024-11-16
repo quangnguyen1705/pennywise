@@ -11,6 +11,11 @@ import sjsu.edu.application.Models.DbConnection;
 
 public class ScheduleTransactionList {
 	private ArrayList<ScheduleTransaction> list = new ArrayList<>();
+	private static ScheduleTransactionList scheduleList = new ScheduleTransactionList();
+	
+	public static ScheduleTransactionList getInstance() {
+		return scheduleList;
+	}
 	
 	public ScheduleTransactionList() {
 		loadScheduledTransactionDb();
