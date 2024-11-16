@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="540.0" maxWidth="960.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.application.Controllers.AddTransactionController">
+<AnchorPane maxHeight="540.0" maxWidth="960.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.application.Controllers.AddScheduledTransactionController">
    <children>
       <AnchorPane layoutX="52.0" layoutY="45.0" prefHeight="472.0" prefWidth="408.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
          <children>
@@ -45,7 +45,7 @@
             <ChoiceBox fx:id="transactionTypeInput" layoutX="128.0" layoutY="218.0" prefHeight="25.0" prefWidth="150.0" />
             <TextField fx:id="paymentName" layoutX="131.0" layoutY="121.0" prefHeight="24.0" prefWidth="150.0" promptText="Ex: Water Bill" />
             <Label layoutX="126.0" layoutY="98.0" text="Scheduled Payment Name" />
-            <ChoiceBox fx:id="transactionTypeInput1" layoutX="128.0" layoutY="263.0" prefHeight="25.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="frequency" layoutX="128.0" layoutY="263.0" prefHeight="25.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="304.0" fitWidth="497.0" layoutX="469.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
