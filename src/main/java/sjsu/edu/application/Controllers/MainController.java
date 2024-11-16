@@ -94,7 +94,7 @@ public class MainController implements Initializable{
 		
 	}
 	public void switchToSchedule(ActionEvent event) throws IOException {
-		root = FXMLLoader.load(getClass().getResource("/views/ScheduledTransaction.fxml"));
+		root = FXMLLoader.load(getClass().getResource("/views/ScheduledTransactions.fxml"));
 		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
