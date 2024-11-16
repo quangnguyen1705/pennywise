@@ -20,7 +20,7 @@ public class ScheduleTransactionList {
 	
     public void addScheduledTransaction(String schedName, String accID, int type, String frequency, LocalDate date, double paymentAmount) {
         
-    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type, frequency, dueDate, paymentAmount);
+    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type, frequency, date, paymentAmount);
         
     	list.add(newScheduledTransaction);
         saveScheduledTransaction(newScheduledTransaction);
