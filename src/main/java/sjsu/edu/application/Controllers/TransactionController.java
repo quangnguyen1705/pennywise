@@ -64,7 +64,7 @@ public class TransactionController {
 	private TableColumn<Transaction, Double> depositAmountColumn;
 
 	
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
+	private TransactionTypeList typeList = new TransactionTypeList();
 	private TransactionList transactions = new TransactionList();
 	private AccountList accList = new AccountList();
 	
@@ -81,18 +81,7 @@ public class TransactionController {
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(cellData -> {
-	    	Transaction transaction = cellData.getValue();
-	    	if (transaction != null) {
-	    		int typeID = transaction.getType();
-	    		return new SimpleStringProperty(typeList.getNameByID(typeID));
-	    	}
-	    	else {
-	            return new SimpleStringProperty("Unknown Type");
-	    	}
-	    	
-	    	
-	    });
+	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 	    descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 	    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 
@@ -106,7 +95,9 @@ public class TransactionController {
 	    ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
 
 	    try (Connection conn = DbConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM transactions ORDER BY transaction_date DESC");
+	         PreparedStatement stmt = conn.prepareStatement("SELECT account_id, transaction_type_id ,tt.type_name as transaction_type ,transaction_date, transaction_description, payment_amount, deposit_amount "
+	         												+ " FROM transactions t INNER JOIN transaction_types tt ON  tt.id = t.transaction_type_id "
+	         												+ " ORDER BY transaction_date DESC");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        this.transactions.getList().clear();

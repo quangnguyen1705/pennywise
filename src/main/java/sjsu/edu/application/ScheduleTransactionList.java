@@ -1,29 +1,22 @@
 package sjsu.edu.application;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import sjsu.edu.application.Models.DbConnection;
 
 public class ScheduleTransactionList {
 	private ArrayList<ScheduleTransaction> list = new ArrayList<>();
-	private static ScheduleTransactionList scheduleList = new ScheduleTransactionList();
-	
-	public static ScheduleTransactionList getInstance() {
-		return scheduleList;
-	}
 	
 	public ScheduleTransactionList() {
 		loadScheduledTransactionDb();
 	}
 	
-    public void addScheduledTransaction(String schedName, String accID, int type, String frequency, LocalDate date, double paymentAmount) {
+    public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         
     	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type, frequency, date, paymentAmount);
         
@@ -43,10 +36,7 @@ public class ScheduleTransactionList {
             statement.setInt(3, scheduledTransaction.getType());
             statement.setString(4, scheduledTransaction.getFrequency());
             statement.setDouble(6, scheduledTransaction.getPaymentAmount());
-
-            //format for SQL
-            Date formattedDate = Date.valueOf(scheduledTransaction.getDate());
-            statement.setDate(5, formattedDate);
+            statement.setInt(5, scheduledTransaction.getDate());
             
             statement.executeUpdate();
             System.out.println("Scheduled transaction saved to database successfully.");
@@ -58,7 +48,8 @@ public class ScheduleTransactionList {
     
     private void loadScheduledTransactionDb() {
         list.clear();
-        String sql = "SELECT schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount FROM scheduled_transactions ORDER BY due_date ASC";
+        String sql = "SELECT schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount "
+        		     + " FROM scheduled_transactions ORDER BY due_date ASC";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -69,7 +60,7 @@ public class ScheduleTransactionList {
                 String accID = rs.getString("account_id");
                 int type = rs.getInt("transaction_type_id");
                 String frequency = rs.getString("frequency");
-                LocalDate dueDate = rs.getDate("due_date").toLocalDate();
+                int dueDate = rs.getInt("due_date");
                 double paymentAmount = rs.getDouble("payment_amount");
 
                 list.add(new ScheduleTransaction(schedName, accID, type, frequency, dueDate, paymentAmount));

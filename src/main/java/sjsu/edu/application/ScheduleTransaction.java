@@ -8,10 +8,10 @@ public class ScheduleTransaction {
 	private String accID; 
 	private int type;
 	private String frequency; 
-	private LocalDate date; 
+	private int dueDate; 
 	private double paymentAmount; 
 	
-    public ScheduleTransaction(String schedName, String accID, int type, String frequency, LocalDate date, double paymentAmount) {
+    public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         this.schedName = schedName;
         this.accID = accID;
         this.type = type;
@@ -52,16 +52,12 @@ public class ScheduleTransaction {
         this.frequency = frequency;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public int getDate() {
+        return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        if (dueDate != null) {
-            this.date = dueDate;
-        } else {
-            throw new IllegalArgumentException("Date cannot be null");
-        }
+    public void setDueDate(int dueDate) {
+       this.dueDate = dueDate;
     }
 
     public double getPaymentAmount() {
@@ -69,17 +65,7 @@ public class ScheduleTransaction {
     }
 
     public void setPaymentAmount(double paymentAmount) {
-        if (paymentAmount > 0) {
-            this.paymentAmount = paymentAmount;
-        } else {
-            throw new IllegalArgumentException("Payment amount cannot be less than 0");
-        }
-    }
-
-	public String getFormattedDate() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yy");
-		return date.format(formatter);
-	}
-	
+       this.paymentAmount = paymentAmount;
+    }	
 
 }

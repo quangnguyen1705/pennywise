@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS transaction_types(
 -- Transactions Database in SQLite
 CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_id Integer NOT NULL,
+    account_id TEXT NOT NULL,
     transaction_type_id INTEGER NOT NULL, 
     transaction_date DATE NOT NULL, 
     transaction_description TEXT NOT NULL,
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS transactions (
 CREATE TABLE IF NOT EXISTS scheduled_transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     schedule_name TEXT NOT NULL UNIQUE, 
-    account_id integer NOT NULL, 
-    transaction_type _id Integer NOT NULL, 
+    account_id TEXT NOT NULL, 
+    transaction_type_id Integer NOT NULL, 
     frequency TEXT NOT NULL DEFAULT 'Monthly', 
     due_date INTEGER NOT NULL, 
     payment_amount DOUBLE NOT NULL, 

@@ -65,7 +65,8 @@ public class TransactionList {
 	
 	private void loadTransactionDb() {
         list.clear();
-        String sql = "SELECT account_id, transaction_description, transaction_type_id, transaction_date, payment_amount,deposit_amount FROM transactions ORDER BY transaction_date DESC";
+        String sql = "SELECT account_id, transaction_description, transaction_type_id, transaction_date, payment_amount,deposit_amount "
+        		     + " FROM transactions ORDER BY transaction_date DESC";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();

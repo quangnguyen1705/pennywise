@@ -5,10 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,12 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
-import sjsu.edu.application.ScheduleTransactionList;
-import sjsu.edu.application.Transaction;
-import sjsu.edu.application.TransactionList;
-import sjsu.edu.application.TransactionTypeList;
-import sjsu.edu.application.Models.DbConnection;
 import sjsu.edu.application.ScheduleTransaction;
+import sjsu.edu.application.ScheduleTransactionList;
+import sjsu.edu.application.Models.DbConnection;
 
 public class ScheduleTransactionController {
 	
@@ -45,13 +38,14 @@ public class ScheduleTransactionController {
 	@FXML
 	private TableColumn<ScheduleTransaction, String> typeColumn;
 	@FXML
-	private TableColumn<ScheduleTransaction, String> paymentAmountColumn;
+	private TableColumn<ScheduleTransaction, String> amountColumn;
 	@FXML
-	private TableColumn<ScheduleTransaction, LocalDate> dateColumn;
+	private TableColumn<ScheduleTransaction, Integer> dateColumn;
 	@FXML
 	private TableColumn<ScheduleTransaction, Double> freqColumn;
 	
-	private ScheduleTransactionList transactions = ScheduleTransactionList.getInstance(); 
+	//private TransactionList transactions = new TransactionList(); change to scheduledList
+	private ScheduleTransactionList scheduleTransaction = new ScheduleTransactionList();
 	private AccountList accList = new AccountList();
 	
 	public void initialize() {
@@ -67,55 +61,51 @@ public class ScheduleTransactionController {
 	    });
 
 	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("schedule_name"));
 	    dateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
 
-	    paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+	    amountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
 	    freqColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
 
-	    loadTransactions();
+	   loadTransactions();
 	}
 
 	private void loadTransactions() {
-	    ObservableList<ScheduleTransaction> transactionList = FXCollections.observableArrayList();
+	    ObservableList<ScheduleTransaction> scheduleTransactionLst = FXCollections.observableArrayList();
 
 	    try (Connection conn = DbConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM transactions ORDER BY transaction_date DESC");
+	         PreparedStatement stmt = conn.prepareStatement("SELECT id, schedule_name, st.account_id, st.transaction_type_id, frequency, due_date, payment_amount, c.bank_name, t.type AS transaction_type "
+	         												+ " FROM scheduled_transactions st "
+	         												+ " INNER JOIN transactions t ON t.id = st.transaction_type_id "
+	         												+ " INNER JOIN account c ON c.id= st.bank_name "
+	         												+ " ORDER BY due_date DESC");
 	         ResultSet rs = stmt.executeQuery()) {
 
-	        this.transactions.getList().clear(); //replace with schedule list name
+	        this.scheduleTransaction.getList().clear(); //replace with schedule list name
 
 	        while (rs.next()) {
 	            String accountId = rs.getString("account_id");
-	            int transactionType = rs.getInt("transaction_type_id");
-	            String frequency = rs.getString("frequency");
-	            long timestamp = rs.getLong("transaction_date");
-	            LocalDate date = Instant.ofEpochMilli(timestamp)
-	                                               .atZone(ZoneId.systemDefault())
-	                                               .toLocalDate();
+	            String transactionType = rs.getString("transaction_type");
+	            int transactionTypeID = rs.getInt("transaction_type_id");
 	            String name = rs.getString("schedule_name");
+	            String frequency = rs.getString("frequency");
+	            int dueDate = rs.getInt("due_date");
+	            
 	            double paymentAmount = rs.getDouble("payment_amount");
 
-	            double amount;
-	            if (paymentAmount > 0) {
-	                amount = -paymentAmount;
-	            } else {
-	                amount = paymentAmount;
-	            }
 	            if (accList.getAccountById(accountId) != null) {
-	            	//public ScheduleTransaction(String schedName, String accID, int type, String frequency, LocalDate date, double paymentAmount)
-	                ScheduleTransaction transaction = new ScheduleTransaction(name, accountId, transactionType, frequency, date, amount);
-	                this.transactions.getList().add(transaction);
+	         
+	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
+	                this.scheduleTransaction.getList().add(scheduleTrans);
 	            }
 	        }
 
 	    } catch (SQLException error) {
 	        System.out.println("Error loading transactions from database: " + error.getMessage());
-	        return;
 	    }
 
-	    transactionList.addAll(this.transactions.getList());
-	    ScheduledView.setItems(transactionList);
+	    scheduleTransactionLst.addAll(this.scheduleTransaction.getList());
+	    ScheduledView.setItems(scheduleTransactionLst);
 	}
 	
 	public void switchToMain2(ActionEvent event) throws IOException {

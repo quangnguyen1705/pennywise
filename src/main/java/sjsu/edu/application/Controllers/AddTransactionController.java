@@ -20,6 +20,7 @@ import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
 
 
+
 public class AddTransactionController {
 
 	private Stage stage;
@@ -97,13 +98,6 @@ public class AddTransactionController {
 				return;
 			}
 
-	        // find transacton_type_id from transactontypelist
-	        int transactionTypeId = typeList.getTransactionTypeIdByName(transactionType);
-	        if (transactionTypeId == -1) {
-	            errMsg.setText("Invalid transaction type.");
-	            return;
-	        }
-
 			// transactionDateInput
 			LocalDate transactionDate = transactionDateInput.getValue();
 			// check for existing description
@@ -121,8 +115,6 @@ public class AddTransactionController {
 			double transasctionAmountDouble = 0;
 			double depositAmountDouble = 0;
 			
-			System.out.println("Transaction amount: -----"+ transactionAmount.length());
-			System.out.println("Deposit amount: -----"+ depositAmount.length());
 			//checks if both fields are filled
 			if (transactionAmount.length() == 0 && depositAmount.length() == 0) {
 				//if both fields are filled return an error
@@ -151,7 +143,8 @@ public class AddTransactionController {
 			else {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
-				transactionLst.addTransaction(transactionTypeId, description, transactionDate, transasctionAmountDouble,
+				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
+				transactionLst.addTransaction(transTypeID, description, transactionDate, transasctionAmountDouble,
 						depositAmountDouble, accID);
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);
