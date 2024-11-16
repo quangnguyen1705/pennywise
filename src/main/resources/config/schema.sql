@@ -6,6 +6,12 @@ CREATE TABLE IF NOT EXISTS accounts(
 	open_date DATE NOT NULL
 );
 
+-- Transaction Types database in sqlite
+CREATE TABLE IF NOT EXISTS transaction_types(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	type_name TEXT UNIQUE NOT NULL -- make sure it's a unqique name
+);
+
 -- Transactions Database in SQLite
 CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,11 +28,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id) ON DELETE CASCADE --valid transaction type. deletes transactions of a transaction type if the transaction type is deleted. 
 );
 
--- Transaction Types database in sqlite
-CREATE TABLE IF NOT EXISTS transaction_types(
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	type_name TEXT UNIQUE NOT NULL -- make sure it's a unqique name
-);
+
 
 -- Schedule transaction Type
 CREATE TABLE IF NOT EXISTS scheduled_transactions (

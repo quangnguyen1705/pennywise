@@ -1,5 +1,9 @@
 package sjsu.edu.application.Models; // check this across other files. 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -26,43 +30,31 @@ public class DbConnection {
 
 
     public static void initializeDatabase() {
+    	String schemaPath = "src/main/resources/config/schema.sql";
         try (Connection conn = getConnection();
              Statement statement = conn.createStatement()) {
+        	
+        	BufferedReader reader = new BufferedReader(new FileReader(schemaPath));
+        	
+        	StringBuilder schemaBuilder = new StringBuilder();
+        	String line;
+        	while((line = reader.readLine()) != null) {
+        		schemaBuilder.append(line).append("\n");
+        	}
+        	
+        	String schemaSql = schemaBuilder.toString();
+            statement.executeUpdate(schemaSql);
 
-            // Create the accounts table
-            String createAccountsTable = "CREATE TABLE IF NOT EXISTS accounts (" +
-                                         "id TEXT PRIMARY KEY, " +
-                                         "bank_name TEXT NOT NULL, " +
-                                         "open_balance DOUBLE NOT NULL, " +
-                                         "open_date DATE NOT NULL);";
-            statement.execute(createAccountsTable);
-            System.out.println("Accounts table created or already exists.");
-
-            // Create the transaction_types table
-            String createTransactionTypesTable = "CREATE TABLE IF NOT EXISTS transaction_types (" +
-                                                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                                 "type_name TEXT UNIQUE NOT NULL);";
-            statement.execute(createTransactionTypesTable);
-            System.out.println("Transaction Types table created or already exists.");
-
-            // Create the transactions table
-            String createTransactionsTable = "CREATE TABLE IF NOT EXISTS transactions (" +
-                                             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                             "account_id TEXT NOT NULL, " +
-                                             "transaction_type TEXT NOT NULL, " +
-                                             "transaction_date DATE NOT NULL, " +
-                                             "transaction_description TEXT NOT NULL, " +
-                                             "payment_amount DOUBLE NOT NULL DEFAULT 0, " +
-                                             "deposit_amount DOUBLE NOT NULL DEFAULT 0, " +
-                                             "CHECK ((payment_amount = 0 AND deposit_amount > 0) OR " +  // remove if needed
-                                             "       (payment_amount > 0 AND deposit_amount = 0)), " +
-                                             "FOREIGN KEY (account_id) REFERENCES accounts(id), " +
-                                             "FOREIGN KEY (transaction_type) REFERENCES transaction_types(type_name));";
-            statement.execute(createTransactionsTable);
-            System.out.println("Transactions table created or already exists.");
+            System.out.println("Schema executed successfully!");
 
         } catch (SQLException error) {
             System.out.println("Error initializing database: " + error.getMessage());
+        }
+        catch (FileNotFoundException e) {
+        	System.out.println("Schema not found"); 
+        }
+        catch (IOException e) {
+        	System.out.println("schema not read properly");
         }
     }
 
