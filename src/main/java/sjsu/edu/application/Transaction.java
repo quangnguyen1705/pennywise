@@ -6,14 +6,16 @@ import java.time.format.DateTimeFormatter;
 public class Transaction {
 	private int type;
 	private String accID;
+	private String typeName;
 	private String description;
 	private LocalDate date;
 	private double depositAmount;
 	private double paymentAmount;
 
-	public Transaction(int type, String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
-		this.type = type;
+	public Transaction(int typeID, String typeName,String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
+		this.type = typeID;
 		this.accID = accID;
+		this.typeName = typeName;
 		this.description = description;
 		this.date = date;
 		
@@ -78,6 +80,14 @@ public class Transaction {
 
 	public void setDepositAmount(double depositAmount) {
 		this.depositAmount = depositAmount;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 }

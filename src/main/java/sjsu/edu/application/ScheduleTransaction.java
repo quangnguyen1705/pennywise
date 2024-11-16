@@ -1,20 +1,21 @@
 package sjsu.edu.application;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter; 
+
 
 public class ScheduleTransaction {
 	private String schedName; 
 	private String accID; 
 	private int type;
+	private String transactionTypeName;
 	private String frequency; 
 	private int dueDate; 
 	private double paymentAmount; 
 	
-    public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
+    public ScheduleTransaction(String schedName, String accID, int type, String transactionTypeName, String frequency, int date, double paymentAmount) {
         this.schedName = schedName;
         this.accID = accID;
         this.type = type;
+        this.transactionTypeName = transactionTypeName;
         this.frequency = frequency;
         setDueDate(date); 
         setPaymentAmount(paymentAmount);
@@ -66,6 +67,14 @@ public class ScheduleTransaction {
 
     public void setPaymentAmount(double paymentAmount) {
        this.paymentAmount = paymentAmount;
-    }	
+    }
+
+	public String getTransactionTypeName() {
+		return transactionTypeName;
+	}
+
+	public void setTransactionTypeName(String transactionTypeName) {
+		this.transactionTypeName = transactionTypeName;
+	}	
 
 }

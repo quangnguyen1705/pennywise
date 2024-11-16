@@ -20,9 +20,9 @@ public class TransactionList {
 	}
 	
 	
-	public void addTransaction(int typeId, String description, LocalDate date, double paymentAmount, double depositAmount, String accID) {
+	public void addTransaction(int typeId, String transactionName ,String description, LocalDate date, double paymentAmount, double depositAmount, String accID) {
 		
-		Transaction newTransaction = new Transaction(typeId, description, date, paymentAmount,depositAmount, accID); // do this so that separate objects arent created
+		Transaction newTransaction = new Transaction(typeId, transactionName,description, date, paymentAmount,depositAmount, accID); // do this so that separate objects arent created
 
         /* if (type <= 0) {
             throw new IllegalArgumentException("Transaction type must be a positive integer.");
@@ -65,8 +65,9 @@ public class TransactionList {
 	
 	private void loadTransactionDb() {
         list.clear();
-        String sql = "SELECT account_id, transaction_description, transaction_type_id, transaction_date, payment_amount,deposit_amount "
-        		     + " FROM transactions ORDER BY transaction_date DESC";
+        String sql = "SELECT account_id, transaction_description, transaction_type_id,  tt.type_name AS transaction_type_name ,transaction_date, payment_amount,deposit_amount "
+        		     + " FROM transactions t INNER JOIN transaction_types tt ON tt.id =t.transaction_type_id "
+        		     + " ORDER BY transaction_date DESC";
 
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
@@ -75,12 +76,13 @@ public class TransactionList {
             while (rs.next()) {
                 String accID = rs.getString("account_id");
                 String description = rs.getString("transaction_description");
+                String transactionTypeName = rs.getString("transaction_type_name");
                 int type = rs.getInt("transaction_type_id");
                 LocalDate date = rs.getDate("transaction_date").toLocalDate();
                 double paymentAmount = rs.getDouble("payment_amount");
                 double depositAmount = rs.getDouble("deposit_amount");
 
-                list.add(new Transaction(type, description, date, paymentAmount,depositAmount, accID));
+                list.add(new Transaction(type, transactionTypeName ,description, date, paymentAmount,depositAmount, accID));
             }
             System.out.println("Accounts loaded successfully.");
             conn.close();

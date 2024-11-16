@@ -81,7 +81,7 @@ public class TransactionController {
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
 	    descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 	    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 
@@ -104,8 +104,8 @@ public class TransactionController {
 
 	        while (rs.next()) {
 	            String accountId = rs.getString("account_id");
-	            int transactionType = rs.getInt("transaction_type_id");
-
+	            int transactionTypeID = rs.getInt("transaction_type_id");
+	            String transactionType = rs.getString("transaction_type");
 	            long timestamp = rs.getLong("transaction_date");
 	            LocalDate transactionDate = Instant.ofEpochMilli(timestamp)
 	                                               .atZone(ZoneId.systemDefault())
@@ -123,7 +123,7 @@ public class TransactionController {
 	            }
 
 	            if (accList.getAccountById(accountId) != null) {
-	                Transaction transaction = new Transaction(transactionType, description, transactionDate, paymentAmount, depositAmount, accountId);
+	                Transaction transaction = new Transaction(transactionTypeID, transactionType,description, transactionDate, paymentAmount, depositAmount, accountId);
 	                this.transactions.getList().add(transaction);
 	            }
 	        }

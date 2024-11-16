@@ -144,7 +144,7 @@ public class AddTransactionController {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
 				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
-				transactionLst.addTransaction(transTypeID, description, transactionDate, transasctionAmountDouble,
+				transactionLst.addTransaction(transTypeID, transactionType ,description, transactionDate, transasctionAmountDouble,
 						depositAmountDouble, accID);
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);

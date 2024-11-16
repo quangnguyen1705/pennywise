@@ -26,8 +26,6 @@ public class DbConnection {
         }
     }
     
-    
-
 
     public static void initializeDatabase() {
     	String schemaPath = "src/main/resources/config/schema.sql";

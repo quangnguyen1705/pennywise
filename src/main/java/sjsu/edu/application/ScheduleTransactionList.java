@@ -16,9 +16,9 @@ public class ScheduleTransactionList {
 		loadScheduledTransactionDb();
 	}
 	
-    public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
+    public void addScheduledTransaction(String schedName, String accID, int type, String transactionTypeName, String frequency, int date, double paymentAmount) {
         
-    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type, frequency, date, paymentAmount);
+    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type,transactionTypeName ,frequency, date, paymentAmount);
         
     	list.add(newScheduledTransaction);
         saveScheduledTransaction(newScheduledTransaction);
@@ -48,9 +48,12 @@ public class ScheduleTransactionList {
     
     private void loadScheduledTransactionDb() {
         list.clear();
-        String sql = "SELECT schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount "
-        		     + " FROM scheduled_transactions ORDER BY due_date ASC";
+        String sql = "SELECT schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount ,t.type_name AS transaction_type"
+        		     + " FROM scheduled_transactions st"
+        		     + " INNER JOIN transaction_types t ON t.id = st.transaction_type_id "
+        		     + " ORDER BY due_date ASC";
 
+        
         try (Connection conn = DbConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -61,9 +64,10 @@ public class ScheduleTransactionList {
                 int type = rs.getInt("transaction_type_id");
                 String frequency = rs.getString("frequency");
                 int dueDate = rs.getInt("due_date");
+                String transactionTypeName = rs.getString("transaction_type");
                 double paymentAmount = rs.getDouble("payment_amount");
 
-                list.add(new ScheduleTransaction(schedName, accID, type, frequency, dueDate, paymentAmount));
+                list.add(new ScheduleTransaction(schedName, accID, type, transactionTypeName  ,frequency, dueDate, paymentAmount));
             }
             System.out.println("Scheduled transactions loaded successfully.");
             conn.close();

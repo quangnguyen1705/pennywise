@@ -60,9 +60,9 @@ public class ScheduleTransactionController {
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("schedule_name"));
-	    dateColumn.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
+	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("transactionTypeName"));
+	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("schedName"));
+	    dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
 	    amountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
 	    freqColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
@@ -74,10 +74,10 @@ public class ScheduleTransactionController {
 	    ObservableList<ScheduleTransaction> scheduleTransactionLst = FXCollections.observableArrayList();
 
 	    try (Connection conn = DbConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement("SELECT id, schedule_name, st.account_id, st.transaction_type_id, frequency, due_date, payment_amount, c.bank_name, t.type AS transaction_type "
+	         PreparedStatement stmt = conn.prepareStatement("SELECT st.id as schedule_transaction_id, schedule_name, st.account_id, st.transaction_type_id, frequency, due_date, st.payment_amount, c.bank_name, t.type_name AS transaction_type "
 	         												+ " FROM scheduled_transactions st "
-	         												+ " INNER JOIN transactions t ON t.id = st.transaction_type_id "
-	         												+ " INNER JOIN account c ON c.id= st.bank_name "
+	         												+ " INNER JOIN transaction_types t ON t.id = st.transaction_type_id "
+	         												+ " INNER JOIN accounts c ON c.id= st.account_id "
 	         												+ " ORDER BY due_date DESC");
 	         ResultSet rs = stmt.executeQuery()) {
 
@@ -95,7 +95,7 @@ public class ScheduleTransactionController {
 
 	            if (accList.getAccountById(accountId) != null) {
 	         
-	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
+	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,transactionType,frequency,dueDate,paymentAmount);
 	                this.scheduleTransaction.getList().add(scheduleTrans);
 	            }
 	        }
