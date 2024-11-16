@@ -64,7 +64,7 @@ public class TransactionController {
 	private TableColumn<Transaction, Double> depositAmountColumn;
 
 	
-	private TransactionTypeList typeList = new TransactionTypeList();
+	private TransactionTypeList typeList = TransactionTypeList.getInstance();
 	private TransactionList transactions = new TransactionList();
 	private AccountList accList = new AccountList();
 	
@@ -81,7 +81,18 @@ public class TransactionController {
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+	    typeColumn.setCellValueFactory(cellData -> {
+	    	Transaction transaction = cellData.getValue();
+	    	if (transaction != null) {
+	    		int typeID = transaction.getType();
+	    		return new SimpleStringProperty(typeList.getNameByID(typeID));
+	    	}
+	    	else {
+	            return new SimpleStringProperty("Unknown Type");
+	    	}
+	    	
+	    	
+	    });
 	    descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 	    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 
@@ -102,7 +113,7 @@ public class TransactionController {
 
 	        while (rs.next()) {
 	            String accountId = rs.getString("account_id");
-	            String transactionType = rs.getString("transaction_type");
+	            int transactionType = rs.getInt("transaction_type_id");
 
 	            long timestamp = rs.getLong("transaction_date");
 	            LocalDate transactionDate = Instant.ofEpochMilli(timestamp)

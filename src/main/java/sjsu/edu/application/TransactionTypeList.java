@@ -11,11 +11,19 @@ import sjsu.edu.application.Models.DbConnection;
 
 public class TransactionTypeList {
 	private ArrayList<String> list = new ArrayList<>();
+	private static TransactionTypeList typeList = new TransactionTypeList();
+	
+	public static TransactionTypeList getInstance() {
+		return typeList;
+	}
 	
 	
 	public String addType(String type) {
 		list.add(type);
 		return saveTypeDb(type);
+	}
+	public String getNameByID(int index) {
+		return list.get(index - 1);
 	}
 	
 	public String saveTypeDb(String type) {

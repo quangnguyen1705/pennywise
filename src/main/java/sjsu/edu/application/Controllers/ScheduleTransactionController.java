@@ -89,19 +89,15 @@ public class ScheduleTransactionController {
 	            String transactionType = rs.getString("transaction_type");
 
 
-	            String name = rs.getString("schedule_name"); //change 
+	            String name = rs.getString("schedule_name");
 	            double paymentAmount = rs.getDouble("payment_amount");
-	            double depositAmount = rs.getDouble("deposit_amount");
 
 	            double amount;
 	            if (paymentAmount > 0) {
 	                amount = -paymentAmount;
-	            } else {
-	                amount = depositAmount;
-	            }
-
+	            } 
 	            if (accList.getAccountById(accountId) != null) {
-	                Transaction transaction = new Transaction(transactionType, description, transactionDate, paymentAmount, depositAmount, accountId);
+	                ScheduleTransaction transaction = new ScheduleTransaction(transactionType, name, paymentAmount, accountId);
 	                this.transactions.getList().add(transaction);
 	            }
 	        }
