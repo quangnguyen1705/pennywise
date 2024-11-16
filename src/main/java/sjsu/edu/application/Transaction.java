@@ -4,14 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Transaction {
-	private String type;
+	private int type;
 	private String accID;
 	private String description;
 	private LocalDate date;
 	private double depositAmount;
 	private double paymentAmount;
 
-	public Transaction(String type, String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
+	public Transaction(int type, String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
 		this.type = type;
 		this.accID = accID;
 		this.description = description;
@@ -26,11 +26,11 @@ public class Transaction {
 	    }
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
