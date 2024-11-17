@@ -156,6 +156,7 @@ public class TransactionController {
 	}
 	
 	public void addTypeOP(ActionEvent event) {
+		errMsg.setText("");
 		String type = typeInputField.getText();
 		if (type.equals("")){
 			errMsg.setText("Please enter a valid type");
