@@ -93,7 +93,7 @@ public class ScheduleTransactionController {
 	         												+ " FROM scheduled_transactions st "
 	         												+ " INNER JOIN transaction_types t ON t.id = st.transaction_type_id "
 	         												+ " INNER JOIN accounts c ON c.id= st.account_id "
-	         												+ " ORDER BY due_date DESC");
+	         												+ " ORDER BY due_date ASC");
 	         ResultSet rs = stmt.executeQuery()) {
 
 	        this.scheduleTransaction.getList().clear(); //replace with schedule list name
