@@ -122,6 +122,10 @@ public class AddTransactionController {
 				errMsg.setText("Please fill in only one field Transaction Amount or Deposit Amount");
 				return;
 			}
+			else if (transactionAmount.length() > 0 && depositAmount.length() > 0) {
+				errMsg.setText("Choose only deposit or transaction");
+				return;
+			}
 			else if (transactionAmount.length() > 0 && depositAmount.length() == 0) {
 				//if transaction field is filled, set the transaction double to the price and the deposit field to 0
 				transasctionAmountDouble = Double.parseDouble(transactionAmount);
