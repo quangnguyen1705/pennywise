@@ -21,9 +21,9 @@ public class ScheduleTransactionList {
 		loadScheduledTransactionDb();
 	}
 	
-    public void addScheduledTransaction(String schedName, String accID, int type, String transactionTypeName, String frequency, int date, double paymentAmount) {
+    public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         
-    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type,transactionTypeName ,frequency, date, paymentAmount);
+    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type ,frequency, date, paymentAmount);
         
     	list.add(newScheduledTransaction);
         saveScheduledTransaction(newScheduledTransaction);
@@ -69,10 +69,9 @@ public class ScheduleTransactionList {
                 int type = rs.getInt("transaction_type_id");
                 String frequency = rs.getString("frequency");
                 int dueDate = rs.getInt("due_date");
-                String transactionTypeName = rs.getString("transaction_type");
                 double paymentAmount = rs.getDouble("payment_amount");
 
-                list.add(new ScheduleTransaction(schedName, accID, type, transactionTypeName  ,frequency, dueDate, paymentAmount));
+                list.add(new ScheduleTransaction(schedName, accID, type, frequency, dueDate, paymentAmount));
             }
             System.out.println("Scheduled transactions loaded successfully.");
             conn.close();

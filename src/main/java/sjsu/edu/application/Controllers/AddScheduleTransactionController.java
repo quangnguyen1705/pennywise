@@ -39,7 +39,6 @@ public class AddScheduleTransactionController {
 	private TextField dayValue;
 
 	private AccountList accountList = new AccountList();
-	private ArrayList<String> types = new ArrayList<>();
 	private ScheduleTransactionList scheduleTransactionLst= new ScheduleTransactionList();
 	private TransactionTypeList typeList = new TransactionTypeList();
 	private ArrayList<String> frequencyLs = new ArrayList<>(Arrays.asList("Monthly"));
@@ -119,18 +118,23 @@ public class AddScheduleTransactionController {
 				errMsg.setText("Please Fill out Transaction Type fields");
 				return;
 			}
+			String freq = frequency.getValue();
+			if (freq == null) {
+				errMsg.setText("Pick a valid frequency");
+				return;
+			}
 			
 			String accID = getAccIDByName(accountName);
 			int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
-			scheduleTransactionLst.addScheduledTransaction(billName, accID, transTypeID,"","Monthly", dueDate, paymentAmount);
+			scheduleTransactionLst.addScheduledTransaction(billName, accID, transTypeID, freq, dueDate, paymentAmount);
 			switchToMain(event);
 			
 		}catch(NumberFormatException ex) {
 			errMsg.setText("Please enter a number in the Payment Amount or Due Date field");
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 

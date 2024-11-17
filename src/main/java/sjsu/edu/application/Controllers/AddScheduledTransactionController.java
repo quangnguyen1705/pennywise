@@ -127,7 +127,7 @@ public class AddScheduledTransactionController {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
 				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
-				//addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount)
+//public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount)
 				scheduleList.addScheduledTransaction(name, accID, transTypeID, freq, transactionDate, transasctionAmountDouble);
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);
@@ -137,12 +137,13 @@ public class AddScheduledTransactionController {
 			
 		}
 		catch(NumberFormatException ex) {
-			errMsg.setText("Please enter a number in the amount field");
+			errMsg.setText("Please enter a number in the amount or due date field");
 			//ex.printStackTrace();
 		}
 		
 		catch (Exception e) {
 			//e.printStackTrace();
+			System.out.println("error");
 		}
 
 	}

@@ -21,6 +21,7 @@ import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
 import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
+import sjsu.edu.application.TransactionTypeList;
 import sjsu.edu.application.Models.DbConnection;
 
 public class ScheduleTransactionController {
@@ -45,22 +46,36 @@ public class ScheduleTransactionController {
 	private TableColumn<ScheduleTransaction, Double> freqColumn;
 	
 	//private TransactionList transactions = new TransactionList(); change to scheduledList
-	private ScheduleTransactionList scheduleTransaction = new ScheduleTransactionList();
+	private ScheduleTransactionList scheduleTransaction = ScheduleTransactionList.getInstance();
+	private TransactionTypeList typeList = TransactionTypeList.getInstance();
 	private AccountList accList = new AccountList();
 	
 	public void initialize() {
-
+		System.out.println("booting up lists");
 	    accColumn.setCellValueFactory(cellData -> {
 	        ScheduleTransaction transaction = cellData.getValue(); //Change this to whatever the class name is
 	        Account account = accList.getAccountById(transaction.getAccID());
 	        if (account != null) {
+	        	System.out.println("fetching acc name");
 	            return new SimpleStringProperty(account.getBankName());
 	        } else {
+	        	System.out.println("acc name fetch fail");
 	            return new SimpleStringProperty("Unknown Account");
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("transactionTypeName"));
+	    typeColumn.setCellValueFactory(cellData ->{
+	    	ScheduleTransaction transaction = cellData.getValue();
+	    	if (transaction != null) {
+	    		System.out.println("fetching type name");
+	    		int index = transaction.getType();
+	    		return new SimpleStringProperty(typeList.getNameByID(index));
+	    	}
+	    	else {
+	    		System.out.println("type name fetch fail");
+	    		return new SimpleStringProperty("Uknown type");
+	    	}
+	    });
 	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("schedName"));
 	    dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
@@ -95,7 +110,7 @@ public class ScheduleTransactionController {
 
 	            if (accList.getAccountById(accountId) != null) {
 	         
-	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,transactionType,frequency,dueDate,paymentAmount);
+	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
 	                this.scheduleTransaction.getList().add(scheduleTrans);
 	            }
 	        }
