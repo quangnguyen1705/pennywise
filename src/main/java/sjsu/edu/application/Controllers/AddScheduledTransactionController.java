@@ -102,6 +102,10 @@ public class AddScheduledTransactionController {
 			}
 			//get due day date
 			String date = dayValue.getText();
+			if (date.length() == 0) {
+				errMsg.setText("Enter valid day");
+				return;
+			}
 			int transactionDate = Integer.parseInt(date);
 			if (transactionDate == 0 || transactionDate > 30) {
 				errMsg.setText("Enter valid day");

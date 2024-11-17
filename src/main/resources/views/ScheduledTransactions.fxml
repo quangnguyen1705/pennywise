@@ -31,7 +31,7 @@
          </children></AnchorPane>
       <AnchorPane layoutX="48.0" layoutY="81.0" prefHeight="436.0" prefWidth="896.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
          <children>
-            <AnchorPane layoutX="117.0" layoutY="24.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+            <AnchorPane layoutX="245.0" layoutY="24.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
                <children>
                   <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Scheduled Transactions" textFill="WHITE">
                      <font>
