@@ -73,6 +73,5 @@
             </TableView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="595.0" layoutY="74.0" prefHeight="195.0" prefWidth="301.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;" />
    </children>
 </AnchorPane>
