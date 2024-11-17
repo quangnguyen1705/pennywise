@@ -158,10 +158,10 @@ public class AddTransactionController {
 			
 		}catch(NumberFormatException ex) {
 			errMsg.setText("Please enter a number in the transaction amount or deposit amount field");
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
