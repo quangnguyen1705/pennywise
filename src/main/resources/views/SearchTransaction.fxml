@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="540.0" prefWidth="960.0" style="-fx-background-color: #b1ffb4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sjsu.edu.application.Controllers.TransactionController">
+   <children>
+      <AnchorPane prefHeight="58.0" prefWidth="993.0" style="-fx-background-color: #dddddd;">
+         <children>
+            <Button layoutX="6.0" layoutY="11.0" mnemonicParsing="false" onAction="#switchToMain2" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Back To Main" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="137.0" layoutY="11.0" mnemonicParsing="false" onAction="#switchToScheduledTransaction" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="View Scheduled Transactions" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children></AnchorPane>
+      <AnchorPane layoutX="293.0" layoutY="86.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+         <children>
+            <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Transactions Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="39.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <TextField layoutX="293.0" layoutY="171.0" prefHeight="37.0" prefWidth="407.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </TextField>
+      <ListView layoutX="153.0" layoutY="270.0" prefHeight="200.0" prefWidth="281.0" />
+      <ListView layoutX="560.0" layoutY="270.0" prefHeight="200.0" prefWidth="281.0" />
+      <AnchorPane layoutX="181.0" layoutY="224.0" prefHeight="37.0" prefWidth="225.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+         <children>
+            <Label alignment="CENTER" layoutX="5.0" layoutY="3.0" prefHeight="31.0" prefWidth="216.0" text="Transactions" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="588.0" layoutY="224.0" prefHeight="37.0" prefWidth="225.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+         <children>
+            <Label alignment="CENTER" layoutX="5.0" layoutY="3.0" prefHeight="31.0" prefWidth="216.0" text="Scheduled Transactions" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
