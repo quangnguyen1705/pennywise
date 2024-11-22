@@ -106,6 +106,7 @@ public class SearchTransactionController {
     
     
     // going back to main page
+    // TODO: Back to Main button like other pages should be implemented. 
 	public void switchToMain(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
 		AnchorPane root = loader.load();
