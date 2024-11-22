@@ -91,6 +91,33 @@ public class TransactionList {
         }
     }
 	
+	public void updateTransaction(Transaction transaction) {
+	    String sql = "UPDATE transactions SET account_id = ?, transaction_description = ?, transaction_type_id = ?, transaction_date = ?, payment_amount = ?, deposit_amount = ? "
+	               + "WHERE account_id = ? AND transaction_date = ?";
+	    try (Connection conn = DbConnection.getConnection();
+	        PreparedStatement statement = conn.prepareStatement(sql)) {
+	        statement.setString(1, transaction.getAccID());  
+	        statement.setString(2, transaction.getDescription());
+	        statement.setInt(3, transaction.getType());
+	        statement.setDate(4, Date.valueOf(transaction.getDate()));
+	        statement.setDouble(5, transaction.getPaymentAmount());
+	        statement.setDouble(6, transaction.getDepositAmount());
+	        statement.setString(7, transaction.getAccID());  
+	        statement.setDate(8, Date.valueOf(transaction.getDate()));
+
+	        int changes = statement.executeUpdate();
+	        if (changes > 0) {
+	            System.out.println("Transaction updated successfully.");
+	        } else {
+	            System.out.println("Transaction update failed.");
+	        }
+	    } catch (SQLException error) {
+	        System.out.println("Error updating transaction: " + error.getMessage());
+	    }
+	}
+
+	
+	
 	public ArrayList<Transaction> getList(){
 		return new ArrayList<>(list);
 	}
