@@ -31,11 +31,11 @@
             </Label>
          </children>
       </AnchorPane>
-      <TextField fx:id="searchField" layoutX="293.0" layoutY="171.0" prefHeight="37.0" prefWidth="407.0">
-         <font>
-            <Font size="21.0" />
-         </font>
-      </TextField>
+	<TextField fx:id="searchField" layoutX="293.0" layoutY="171.0" prefHeight="37.0" prefWidth="407.0" promptText="Search by description"> 
+	   <font>
+	      <Font size="21.0" />
+	   </font>
+	</TextField>
       <TableView fx:id="transactionTable" layoutX="210.0" layoutY="280.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#gotoEditTransaction" prefHeight="226.0" prefWidth="574.0">
          <columns>
             <TableColumn fx:id="typeColumn" editable="false" prefWidth="97.0" text="Type" />
@@ -45,14 +45,6 @@
             <TableColumn fx:id="dateColumn" editable="false" minWidth="0.0" prefWidth="62.0" text="Date" />
          </columns>
       </TableView>
-      <Button layoutX="716.0" layoutY="175.0" mnemonicParsing="false" onAction="#onSearch" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Search" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="15.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
       <Label fx:id="errorLabel" alignment="CENTER" layoutY="216.0" prefHeight="27.0" prefWidth="993.0" textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="18.0" />
