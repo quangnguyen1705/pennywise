@@ -158,20 +158,50 @@ public class EditTransactionController {
         }
 
         try {
-            selectedTransaction.setDescription(descriptionInput.getText().trim());
-            selectedTransaction.setPaymentAmount(Double.parseDouble(paymentAmountInput.getText().trim()));
-            selectedTransaction.setDepositAmount(Double.parseDouble(depositAmountInput.getText().trim()));
-            selectedTransaction.setDate(dateInput.getValue());
-            selectedTransaction.setTypeName(typeInput.getValue());
+            String description = descriptionInput.getText().trim();
+            String paymentAmountText = paymentAmountInput.getText().trim();
+            String depositAmountText = depositAmountInput.getText().trim();
+            LocalDate date = dateInput.getValue();
+            String typeName = typeInput.getValue();
 
-            transactionList.getList().set(transactionTable.getSelectionModel().getSelectedIndex(), selectedTransaction);
-            errorLabel.setText("Transaction updated!");
-            loadTransactionTable(transactionList.getList()); 
+            if (description.isEmpty() || paymentAmountText.isEmpty() || depositAmountText.isEmpty() || date == null || typeName == null) { //checks
+                errorLabel.setText("Fill in all fields!");
+                return;
+            }
+
+            double paymentAmount, depositAmount;
+            try {
+                paymentAmount = Double.parseDouble(paymentAmountText);
+                depositAmount = Double.parseDouble(depositAmountText);
+
+                if (paymentAmount < 0 || depositAmount < 0) { // check
+                    errorLabel.setText("Amounts must be greater than 0!");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                errorLabel.setText("Error with formatting");
+                return;
+            }
+
+            selectedTransaction.setDescription(description);
+            selectedTransaction.setPaymentAmount(paymentAmount);
+            selectedTransaction.setDepositAmount(depositAmount);
+            selectedTransaction.setDate(date);
+            selectedTransaction.setTypeName(typeName);
+
+            // db changes
+            transactionList.updateTransaction(selectedTransaction);
+
+            loadTransactionTable(transactionList.getList());
+
+            errorLabel.setText("Transaction updated successfully!");
         } catch (Exception error) {
-            errorLabel.setText("Saving changes failed.");
+            errorLabel.setText("Error while saving changes.");
             //error.printStackTrace();
         }
     }
+
+
     
     // going back to main page
     // TODO: Back to Main button like other pages should be implemented. 
