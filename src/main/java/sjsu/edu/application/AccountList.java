@@ -13,6 +13,11 @@ import java.time.LocalDate;
 
 public class AccountList {
 	private ArrayList<Account> accountList = new ArrayList<>();
+	private static AccountList accList = new AccountList();
+	
+	public static AccountList getInstance() {
+		return accList;
+	}
 
 	public void addAccount(String bankName, double balance, LocalDate date) {
 		UUID rawID = UUID.randomUUID();
