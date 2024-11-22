@@ -19,7 +19,7 @@
                   <Font size="18.0" />
                </font>
             </Text>
-            <Button layoutX="92.0" layoutY="407.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: green; -fx-border-color: white;" text="Save Changes" textFill="WHITE" />
+            <Button layoutX="92.0" layoutY="407.0" mnemonicParsing="false" onAction="#onSaveChanges" prefHeight="27.0" prefWidth="150.0" style="-fx-background-color: green; -fx-border-color: white;" text="Save Changes" textFill="WHITE" />
             <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onAction="#switchToTransactionSearch" style="-fx-background-color: #dddddd;" text="← Back ">
                <font>
                   <Font size="16.5" />

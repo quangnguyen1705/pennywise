@@ -105,6 +105,15 @@ public class EditTransactionController {
     	return "";
     }
     
+    private String getIDByName(String name) {
+    	for (Account acc: accList.getList()) {
+    		if (acc.getBankName().equals(name)) {
+    			return acc.getId();
+    		}
+    	}
+    	return "";
+    }
+    
     
     
     
@@ -118,31 +127,45 @@ public class EditTransactionController {
         }
 
         try {
+        	String accName = accInput.getValue();
             String description = descriptionInput.getText().trim();
             String paymentAmountText = paymentAmountInput.getText().trim();
             String depositAmountText = depositAmountInput.getText().trim();
             LocalDate date = dateInput.getValue();
             String typeName = typeInput.getValue();
 
-            if (description.isEmpty() || paymentAmountText.isEmpty() || depositAmountText.isEmpty() || date == null || typeName == null) { //checks
-                errorLabel.setText("Fill in all fields!");
+            if (accName.isEmpty() || description.isEmpty() || date == null || typeName == null) { //checks
+                errorLabel.setText("Fill in all required info fields!");
                 return;
             }
 
-            double paymentAmount, depositAmount;
+            double paymentAmount = 0, depositAmount = 0;
             try {
-                paymentAmount = Double.parseDouble(paymentAmountText);
-                depositAmount = Double.parseDouble(depositAmountText);
+            	if ((paymentAmountText.isEmpty() && depositAmountText.isEmpty()) || (!paymentAmountText.isEmpty() && !depositAmountText.isEmpty())) {
+            		 errorLabel.setText("Fill in one of the amount fields!");
+                     return;
+            	}
+            	if (!paymentAmountText.isEmpty()){
+            		paymentAmount = Double.parseDouble(paymentAmountText);
+            	}
+            	else {
+            		 depositAmount = Double.parseDouble(depositAmountText);
+            	}
+                
+               
 
                 if (paymentAmount < 0 || depositAmount < 0) { // check
                     errorLabel.setText("Amounts must be greater than 0!");
                     return;
                 }
+                
             } catch (NumberFormatException e) {
                 errorLabel.setText("Error with formatting");
                 return;
             }
-
+            String originalID = selectedTransaction.getAccID();
+            LocalDate originalDate = selectedTransaction.getDate();
+            selectedTransaction.setAccID(getIDByName(accName));
             selectedTransaction.setDescription(description);
             selectedTransaction.setPaymentAmount(paymentAmount);
             selectedTransaction.setDepositAmount(depositAmount);
@@ -150,7 +173,7 @@ public class EditTransactionController {
             selectedTransaction.setTypeName(typeName);
 
             // db changes
-            transactionList.updateTransaction(selectedTransaction);
+            transactionList.updateTransaction(selectedTransaction, originalID, originalDate);
             switchToTransactionSearch(event);
 
             errorLabel.setText("Transaction updated successfully!");

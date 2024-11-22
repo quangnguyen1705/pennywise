@@ -96,7 +96,7 @@ public class TransactionList {
         }
     }
 	
-	public void updateTransaction(Transaction transaction) {
+	public void updateTransaction(Transaction transaction, String originalID, LocalDate originalDate) {
 	    String sql = "UPDATE transactions SET account_id = ?, transaction_description = ?, transaction_type_id = ?, transaction_date = ?, payment_amount = ?, deposit_amount = ? "
 	               + "WHERE account_id = ? AND transaction_date = ?";
 	    try (Connection conn = DbConnection.getConnection();
@@ -107,8 +107,8 @@ public class TransactionList {
 	        statement.setDate(4, Date.valueOf(transaction.getDate()));
 	        statement.setDouble(5, transaction.getPaymentAmount());
 	        statement.setDouble(6, transaction.getDepositAmount());
-	        statement.setString(7, transaction.getAccID());  
-	        statement.setDate(8, Date.valueOf(transaction.getDate()));
+	        statement.setString(7, originalID);  
+	        statement.setDate(8, Date.valueOf(originalDate));
 
 	        int changes = statement.executeUpdate();
 	        if (changes > 0) {
