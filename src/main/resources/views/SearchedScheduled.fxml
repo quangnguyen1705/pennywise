@@ -24,9 +24,9 @@
          </children></AnchorPane>
       <AnchorPane layoutX="293.0" layoutY="86.0" prefHeight="66.5" prefWidth="406.5" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
          <children>
-            <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Transactions Search" textFill="WHITE">
+            <Label alignment="CENTER" layoutX="-2.0" layoutY="6.0" prefHeight="56.0" prefWidth="407.0" text="Scheduled Transactions Search" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="39.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Label>
          </children>
@@ -38,11 +38,11 @@
       </TextField>
       <TableView fx:id="transactionTable" layoutX="210.0" layoutY="280.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#gotoEditTransaction" prefHeight="226.0" prefWidth="574.0">
          <columns>
+            <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="172.0" text="ScheduledPayment" />
             <TableColumn fx:id="typeColumn" editable="false" prefWidth="97.0" text="Type" />
-            <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="239.0" text="Description" />
-            <TableColumn fx:id="paymentAmountColumn" editable="false" prefWidth="98.0" text="Transaction&#10;Amount&#10;" />
-            <TableColumn fx:id="depositAmountColumn" editable="false" minWidth="0.0" prefWidth="77.0" text="Deposit&#10;Amount&#10;" />
-            <TableColumn fx:id="dateColumn" editable="false" minWidth="0.0" prefWidth="62.0" text="Date" />
+            <TableColumn fx:id="paymentAmountColumn" editable="false" prefWidth="119.0" text="Frequency&#10;" />
+            <TableColumn fx:id="depositAmountColumn" editable="false" minWidth="0.0" prefWidth="123.0" text="Amount&#10;" />
+            <TableColumn fx:id="dateColumn" editable="false" minWidth="0.0" prefWidth="62.0" text="Due Date" />
          </columns>
       </TableView>
       <Button layoutX="716.0" layoutY="175.0" mnemonicParsing="false" onAction="#onSearch" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Search" textFill="WHITE">
@@ -58,7 +58,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="322.0" layoutY="256.0" text="Select the Transaction you Wish to Edit">
+      <Label layoutX="273.0" layoutY="256.0" text="Select the Scheduled Transaction you Wish to Edit">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
