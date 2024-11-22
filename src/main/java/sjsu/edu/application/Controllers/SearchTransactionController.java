@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
@@ -107,18 +108,40 @@ public class SearchTransactionController {
     
     // going back to main page
     // TODO: Back to Main button like other pages should be implemented. 
-	public void switchToMain(ActionEvent event) throws IOException {
+	public void switchToTransaction(ActionEvent event) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
 		AnchorPane root = loader.load();
 
 		// Refreshing accounts list
 		MainController mainController = loader.getController();
 		mainController.loadAccounts();
+		
+		loader = new FXMLLoader(getClass().getResource("/views/Transaction.fxml"));
+		root = loader.load();
 
 		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
 
+	}
+	
+	public void gotoEditTransaction(MouseEvent event) throws IOException{
+		Transaction selectedT = transactionTable.getSelectionModel().getSelectedItem();
+		
+		if (selectedT != null) {
+			EditTransactionController.selectedTransaction = selectedT;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditTransaction.fxml"));
+			Scene scene = new Scene(loader.load());
+			
+			stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		}
+		else {
+			System.out.println("No transaction selected");
+			
+		}
+		
 	}
 }
