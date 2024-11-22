@@ -69,27 +69,29 @@ public class SearchTransactionController {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDate"));
         
         loadTransactionTable(transactionList.getList());
+        
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            onSearch(newValue.trim());
+        });
+        
     }
 
 
 
     
     @FXML
-    // TODO: use onSearch with a search button in searchtransaction.fxml
-    public void onSearch(ActionEvent event) {
+    public void onSearch(String query) {
     	try {
-        String query = searchField.getText().trim();
         
         if (query.isEmpty()) {
-            errorLabel.setText("Search field cannot be empty!");
+            errorLabel.setText("");
+            loadTransactionTable(transactionList.getList());
             return;
         }
 
         List<Transaction> filteredTransactions = transactionList.getList()
         	    .stream()
-        	    .filter(transaction -> transaction.getDescription().toLowerCase().contains(query.toLowerCase())
-        	            || transaction.getTypeName().toLowerCase().contains(query.toLowerCase())
-        	            || transaction.getFormattedDate().contains(query))
+        	    .filter(transaction -> transaction.getDescription().toLowerCase().contains(query.toLowerCase())) // removed other fields for search, since only description is needed
         	    .collect(Collectors.toList());
 
 
