@@ -139,4 +139,14 @@ public class ScheduleTransactionController {
 		stage.show();
 		
 	}
+	
+	public void gotoSearchScheduleTransaction (ActionEvent event) throws IOException {
+		root = FXMLLoader.load(getClass().getResource("/views/SearchedScheduled.fxml"));
+		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+
 }

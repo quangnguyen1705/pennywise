@@ -50,6 +50,14 @@
 				<TableColumn fx:id="amountColumn" editable="false" prefWidth="144.0" text="Amount&#10;" />
               </columns>
             </TableView>
+            <Button layoutX="683.0" layoutY="39.0" mnemonicParsing="false" onAction="#gotoSearchScheduleTransaction" style="-fx-background-color: #00089e; -fx-background-radius: 45; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 45;" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
    </children>
