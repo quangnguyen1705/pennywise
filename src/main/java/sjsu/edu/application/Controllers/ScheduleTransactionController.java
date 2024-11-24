@@ -82,7 +82,8 @@ public class ScheduleTransactionController {
 	    amountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
 	    freqColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
 
-	   loadTransactions();
+	    ObservableList<ScheduleTransaction> scheduleTransactionLst = FXCollections.observableArrayList(scheduleTransaction.getList());
+	    ScheduledView.setItems(scheduleTransactionLst);
 	}
 
 	private void loadTransactions() {
@@ -99,6 +100,7 @@ public class ScheduleTransactionController {
 	        this.scheduleTransaction.getList().clear(); //replace with schedule list name
 
 	        while (rs.next()) {
+	        	int id = rs.getInt("id");
 	            String accountId = rs.getString("account_id");
 	            String transactionType = rs.getString("transaction_type");
 	            int transactionTypeID = rs.getInt("transaction_type_id");
@@ -110,7 +112,7 @@ public class ScheduleTransactionController {
 
 	            if (accList.getAccountById(accountId) != null) {
 	         
-	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
+	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(id, name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
 	                this.scheduleTransaction.getList().add(scheduleTrans);
 	            }
 	        }

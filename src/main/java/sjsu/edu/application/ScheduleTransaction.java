@@ -8,19 +8,24 @@ public class ScheduleTransaction {
 	private int type;
 	private String frequency; 
 	private int dueDate; 
-	private double paymentAmount; 
+	private double paymentAmount;
+	public int schedID;
 	
-    public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
+    public ScheduleTransaction(int id, String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         this.schedName = schedName;
         this.accID = accID;
         this.type = type;
         this.frequency = frequency;
         setDueDate(date); 
         setPaymentAmount(paymentAmount);
+        schedID = id;
     }
     
     public String getSchedName() {
         return schedName;
+    }
+    public int getSchedID() {
+    	return schedID;
     }
 
     public void setSchedName(String schedName) {

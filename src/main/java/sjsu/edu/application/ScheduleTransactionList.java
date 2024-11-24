@@ -24,8 +24,9 @@ public class ScheduleTransactionList {
 	}
 	
     public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
-        
-    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(schedName, accID, type ,frequency, date, paymentAmount);
+        int lastIndex = list.size() - 1;
+        int trueIndex = list.get(lastIndex).getSchedID() + 1;
+    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(trueIndex, schedName, accID, type ,frequency, date, paymentAmount);
         
     	list.add(newScheduledTransaction);
         saveScheduledTransaction(newScheduledTransaction);
@@ -66,6 +67,7 @@ public class ScheduleTransactionList {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
+            	int id = rs.getInt("id");
                 String schedName = rs.getString("schedule_name");
                 String accID = rs.getString("account_id");
                 int type = rs.getInt("transaction_type_id");
@@ -73,7 +75,7 @@ public class ScheduleTransactionList {
                 int dueDate = rs.getInt("due_date");
                 double paymentAmount = rs.getDouble("payment_amount");
 
-                list.add(new ScheduleTransaction(schedName, accID, type, frequency, dueDate, paymentAmount));
+                list.add(new ScheduleTransaction(id, schedName, accID, type, frequency, dueDate, paymentAmount));
             }
             System.out.println("Scheduled transactions loaded successfully.");
             conn.close();
@@ -92,7 +94,7 @@ public class ScheduleTransactionList {
 	        statement.setInt(3, scheduledTransaction.getType());
 	        statement.setString(4, scheduledTransaction.getFrequency());
 	        statement.setDouble(5, scheduledTransaction.getPaymentAmount());
-	        statement.setString(6, ScheduledtranssactionID);  
+	        statement.setInt(6, ScheduledtranssactionID);  
 
 	        int changes = statement.executeUpdate();
 	        if (changes > 0) {

@@ -64,9 +64,9 @@ public class TransactionController {
 	private TableColumn<Transaction, Double> depositAmountColumn;
 
 	
-	private TransactionTypeList typeList = new TransactionTypeList();
-	private TransactionList transactions = new TransactionList();
-	private AccountList accList = new AccountList();
+	private TransactionTypeList typeList = TransactionTypeList.getInstance();
+	private TransactionList transactions = TransactionList.getInstance();
+	private AccountList accList = AccountList.getInstance();
 	
 	public void initialize() {
 	    listedTypes.getItems().addAll(typeList.getList());
