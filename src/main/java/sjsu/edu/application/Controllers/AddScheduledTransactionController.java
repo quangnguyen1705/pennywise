@@ -36,7 +36,7 @@ public class AddScheduledTransactionController {
 	@FXML
 	private ChoiceBox<String> frequency;
 
-	private AccountList accountList = new AccountList();
+	private AccountList accountList = AccountList.getInstance();
 	private TransactionTypeList typeList = TransactionTypeList.getInstance();
 	private ScheduleTransactionList scheduleList = ScheduleTransactionList.getInstance();
 
@@ -156,12 +156,9 @@ public class AddScheduledTransactionController {
 	}
 
 	public void switchToMain(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		scheduleList.reload();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ScheduledTransactions.fxml"));
 		AnchorPane root = loader.load();
-
-		// Refreshing accounts list
-		MainController mainController = loader.getController();
-		mainController.loadAccounts();
 
 		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

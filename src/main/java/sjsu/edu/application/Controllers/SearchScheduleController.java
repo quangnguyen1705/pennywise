@@ -87,7 +87,7 @@ public class SearchScheduleController {
     
     private String getTypeByID(int i) {
     	try {
-    		return typeList.getList().get(i);
+    		return typeList.getList().get(i - 1);
     	}
     	
     	catch(Exception e) {

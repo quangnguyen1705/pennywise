@@ -47,18 +47,7 @@ public class TransactionTypeList {
 	}
 	
 	public int getTransactionTypeIdByName(String typeName) {
-	    String sql = "SELECT id FROM transaction_types WHERE type_name = ?";
-	    try (Connection conn = DbConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
-	        stmt.setString(1, typeName);
-	        ResultSet rs = stmt.executeQuery();
-	        if (rs.next()) {
-	            return rs.getInt("id");
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return -1; 
+	    return list.indexOf(typeName) + 1;
 	}
 	
 	
