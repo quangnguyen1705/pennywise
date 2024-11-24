@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-
+import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 
@@ -32,22 +32,21 @@ public class SearchScheduleController {
     private TextField searchField; // input search
 
     @FXML
-    private TableView<Transaction> transactionTable;
+    private TableView<ScheduleTransaction> transactionTable;
 
     @FXML
-    private TableColumn<Transaction, String> descriptionColumn;
+    private TableColumn<ScheduleTransaction, String> descriptionColumn;
 
     @FXML
-    private TableColumn<Transaction, String> typeColumn;
+    private TableColumn<ScheduleTransaction, String> typeColumn;
 
     @FXML
-    private TableColumn<Transaction, Double> paymentAmountColumn;
+    private TableColumn<ScheduleTransaction, Double> paymentAmountColumn;
+
+
 
     @FXML
-    private TableColumn<Transaction, Double> depositAmountColumn;
-
-    @FXML
-    private TableColumn<Transaction, String> dateColumn;
+    private TableColumn<ScheduleTransaction, String> dateColumn;
 
     @FXML
     private Label errorLabel;
@@ -58,14 +57,14 @@ public class SearchScheduleController {
     // load transaction data 
     private void loadTransactionTable(List<Transaction> transactions) {
         ObservableList<Transaction> observableTransactions = FXCollections.observableArrayList(transactions);
-        transactionTable.setItems(observableTransactions);
+       // transactionTable.setItems(observableTransactions);
     }
     
     public void initialize() {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
         paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
-        depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
+      //  depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDate"));
         
         loadTransactionTable(transactionList.getList());
@@ -75,8 +74,6 @@ public class SearchScheduleController {
         });
         
     }
-
-
 
     
     @FXML
@@ -128,12 +125,12 @@ public class SearchScheduleController {
 
 	}
 	
-	public void gotoEditTransaction(MouseEvent event) throws IOException{
-		Transaction selectedT = transactionTable.getSelectionModel().getSelectedItem();
+	public void gotoEditScheduledTransaction(MouseEvent event) throws IOException{
+		ScheduleTransaction selectedT = transactionTable.getSelectionModel().getSelectedItem();
 		
 		if (selectedT != null) {
-			EditTransactionController.selectedTransaction = selectedT;
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditTransaction.fxml"));
+			EditScheduledTransactionController.selectedTransaction = selectedT;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditScheduledTransaction.fxml"));
 			Scene scene = new Scene(loader.load());
 			
 			stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

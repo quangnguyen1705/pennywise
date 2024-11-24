@@ -127,7 +127,6 @@ public class AddScheduledTransactionController {
 			double transasctionAmountDouble = Double.parseDouble(transactionAmount);
 
 			//double transasctionAmountDouble = Double.parseDouble(transactionAmount.getText());
-			//double depositAmountDouble = Double.parseDouble(depositAmount.getText());
 			//checks if values are negative
 			if (transasctionAmountDouble < 0) {
 				errMsg.setText("Invalid input for Transaction Amount");
@@ -142,8 +141,6 @@ public class AddScheduledTransactionController {
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);
 			}
-			
-			
 			
 		}
 		catch(NumberFormatException ex) {

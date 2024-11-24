@@ -114,9 +114,6 @@ public class EditTransactionController {
     	return "";
     }
     
-    
-    
-    
     //TODO: create save changes button in frontend relating to this
     // user edits to the transaction are updated and refreshed
     @FXML

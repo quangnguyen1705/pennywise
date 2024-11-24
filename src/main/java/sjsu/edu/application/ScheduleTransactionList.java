@@ -1,10 +1,12 @@
 package sjsu.edu.application;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import sjsu.edu.application.Models.DbConnection;
@@ -53,7 +55,7 @@ public class ScheduleTransactionList {
     
     private void loadScheduledTransactionDb() {
         list.clear();
-        String sql = "SELECT schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount ,t.type_name AS transaction_type"
+        String sql = "SELECT st.id,schedule_name, account_id, transaction_type_id, frequency, due_date, payment_amount ,t.type_name AS transaction_type"
         		     + " FROM scheduled_transactions st"
         		     + " INNER JOIN transaction_types t ON t.id = st.transaction_type_id "
         		     + " ORDER BY due_date ASC";
@@ -80,6 +82,28 @@ public class ScheduleTransactionList {
         }
     }
 
+    public void updateScheduledTransaction(ScheduleTransaction scheduledTransaction, int ScheduledtranssactionID) {
+	    String sql = "UPDATE scheduled_transactions SET account_id = ?, schedule_name = ?, transaction_type_id = ?, frequency = ?, due_date = ?, payment_amount = ? "
+	               + "WHERE id =?";
+	    try (Connection conn = DbConnection.getConnection();
+	        PreparedStatement statement = conn.prepareStatement(sql)) {
+	        statement.setString(1, scheduledTransaction.getAccID());  
+	        statement.setString(2, scheduledTransaction.getSchedName());
+	        statement.setInt(3, scheduledTransaction.getType());
+	        statement.setString(4, scheduledTransaction.getFrequency());
+	        statement.setDouble(5, scheduledTransaction.getPaymentAmount());
+	        statement.setString(6, ScheduledtranssactionID);  
+
+	        int changes = statement.executeUpdate();
+	        if (changes > 0) {
+	            System.out.println("Scheduled Transaction updated successfully.");
+	        } else {
+	            System.out.println("Scheduled Transaction update failed.");
+	        }
+	    } catch (SQLException error) {
+	        System.out.println("Error updating transaction: " + error.getMessage());
+	    }
+	}
     public ArrayList<ScheduleTransaction> getList() {
         return new ArrayList<>(list);
     }

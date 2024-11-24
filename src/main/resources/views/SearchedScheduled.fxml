@@ -36,7 +36,7 @@
             <Font size="21.0" />
          </font>
       </TextField>
-      <TableView fx:id="transactionTable" layoutX="210.0" layoutY="280.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#gotoEditTransaction" prefHeight="226.0" prefWidth="574.0">
+      <TableView fx:id="transactionTable" layoutX="210.0" layoutY="280.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#gotoEditScheduledTransaction" prefHeight="226.0" prefWidth="574.0">
          <columns>
             <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="172.0" text="ScheduledPayment" />
             <TableColumn fx:id="typeColumn" editable="false" prefWidth="97.0" text="Type" />
