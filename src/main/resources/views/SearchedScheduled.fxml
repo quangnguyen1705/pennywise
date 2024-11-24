@@ -40,8 +40,8 @@
          <columns>
             <TableColumn fx:id="descriptionColumn" editable="false" prefWidth="172.0" text="ScheduledPayment" />
             <TableColumn fx:id="typeColumn" editable="false" prefWidth="97.0" text="Type" />
-            <TableColumn fx:id="paymentAmountColumn" editable="false" prefWidth="119.0" text="Frequency&#10;" />
-            <TableColumn fx:id="depositAmountColumn" editable="false" minWidth="0.0" prefWidth="123.0" text="Amount&#10;" />
+            <TableColumn fx:id="frequencyColumn" editable="false" prefWidth="119.0" text="Frequency&#10;" />
+            <TableColumn fx:id="amountColumn" editable="false" minWidth="0.0" prefWidth="123.0" text="Amount&#10;" />
             <TableColumn fx:id="dateColumn" editable="false" minWidth="0.0" prefWidth="62.0" text="Due Date" />
          </columns>
       </TableView>

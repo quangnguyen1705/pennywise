@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,9 +19,12 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import sjsu.edu.application.Account;
 import sjsu.edu.application.ScheduleTransaction;
+import sjsu.edu.application.ScheduleTransactionList;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
+import sjsu.edu.application.TransactionTypeList;
 
 public class SearchScheduleController {
 	
@@ -41,31 +45,37 @@ public class SearchScheduleController {
     private TableColumn<ScheduleTransaction, String> typeColumn;
 
     @FXML
-    private TableColumn<ScheduleTransaction, Double> paymentAmountColumn;
-
+    private TableColumn<ScheduleTransaction, Double> amountColumn;
+    @FXML
+    private TableColumn<ScheduleTransaction, String> frequencyColumn;
 
 
     @FXML
-    private TableColumn<ScheduleTransaction, String> dateColumn;
+    private TableColumn<ScheduleTransaction, Integer> dateColumn;
 
     @FXML
     private Label errorLabel;
 
-    private TransactionList transactionList = new TransactionList();
+    private ScheduleTransactionList transactionList = ScheduleTransactionList.getInstance();
+    private TransactionTypeList typeList = TransactionTypeList.getInstance();
 
     
     // load transaction data 
-    private void loadTransactionTable(List<Transaction> transactions) {
-        ObservableList<Transaction> observableTransactions = FXCollections.observableArrayList(transactions);
-       // transactionTable.setItems(observableTransactions);
+    private void loadTransactionTable(List<ScheduleTransaction> transactions) {
+        ObservableList<ScheduleTransaction> observableTransactions = FXCollections.observableArrayList(transactions);
+        transactionTable.setItems(observableTransactions);
     }
     
     public void initialize() {
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
-        paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
-      //  depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDate"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("schedName"));
+        typeColumn.setCellValueFactory(cellData -> {
+	        ScheduleTransaction transaction = cellData.getValue();
+	        int typeID = transaction.getType();
+	        return new SimpleStringProperty(getTypeByID(typeID));
+	    });
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
+        frequencyColumn.setCellValueFactory(new PropertyValueFactory<>("frequency"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("Date"));
         
         loadTransactionTable(transactionList.getList());
         
@@ -73,6 +83,16 @@ public class SearchScheduleController {
             onSearch(newValue.trim());
         });
         
+    }
+    
+    private String getTypeByID(int i) {
+    	try {
+    		return typeList.getList().get(i);
+    	}
+    	
+    	catch(Exception e) {
+    		return "Unknown Type";
+    	}
     }
 
     
@@ -86,9 +106,9 @@ public class SearchScheduleController {
             return;
         }
 
-        List<Transaction> filteredTransactions = transactionList.getList()
+        List<ScheduleTransaction> filteredTransactions = transactionList.getList()
         	    .stream()
-        	    .filter(transaction -> transaction.getDescription().toLowerCase().contains(query.toLowerCase())) // removed other fields for search, since only description is needed
+        	    .filter(transaction -> transaction.getSchedName().toLowerCase().contains(query.toLowerCase())) // removed other fields for search, since only description is needed
         	    .collect(Collectors.toList());
 
 
