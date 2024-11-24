@@ -22,6 +22,9 @@ public class ScheduleTransactionList {
 	public ScheduleTransactionList() {
 		loadScheduledTransactionDb();
 	}
+	public void reload() {
+		loadScheduledTransactionDb();
+	}
 	
     public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         int lastIndex = list.size() - 1;
@@ -84,7 +87,7 @@ public class ScheduleTransactionList {
         }
     }
 
-    public void updateScheduledTransaction(ScheduleTransaction scheduledTransaction, int ScheduledtranssactionID) {
+    public void updateScheduledTransaction(ScheduleTransaction scheduledTransaction) {
 	    String sql = "UPDATE scheduled_transactions SET account_id = ?, schedule_name = ?, transaction_type_id = ?, frequency = ?, due_date = ?, payment_amount = ? "
 	               + "WHERE id =?";
 	    try (Connection conn = DbConnection.getConnection();
@@ -93,8 +96,9 @@ public class ScheduleTransactionList {
 	        statement.setString(2, scheduledTransaction.getSchedName());
 	        statement.setInt(3, scheduledTransaction.getType());
 	        statement.setString(4, scheduledTransaction.getFrequency());
-	        statement.setDouble(5, scheduledTransaction.getPaymentAmount());
-	        statement.setInt(6, ScheduledtranssactionID);  
+	        statement.setInt(5, scheduledTransaction.getDate());
+	        statement.setDouble(6, scheduledTransaction.getPaymentAmount());
+	        statement.setInt(7, scheduledTransaction.getSchedID());  
 
 	        int changes = statement.executeUpdate();
 	        if (changes > 0) {

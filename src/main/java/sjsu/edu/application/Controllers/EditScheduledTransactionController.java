@@ -49,13 +49,33 @@ public class EditScheduledTransactionController {
 	}
 
 	public void initialize() {
+		paymentName.setText(selectedTransaction.getSchedName());
 
 		chosenAccount.getItems().addAll(getAccountsByName(accountList.getList()));
-		chosenAccount.getSelectionModel().selectFirst();
+		chosenAccount.getSelectionModel().select(getNameByID(selectedTransaction.getAccID()));
 		transactionTypeInput.getItems().addAll(typeList.getList());
-		transactionTypeInput.getSelectionModel().selectFirst();
+		transactionTypeInput.getSelectionModel().select(getTypeName(selectedTransaction.getType()));
 		frequency.getItems().add("Monthly");
 		frequency.getSelectionModel().selectFirst();
+		dayValue.setText(String.valueOf(selectedTransaction.getDate()));
+		amount.setText(String.valueOf(selectedTransaction.getPaymentAmount()));
+	}
+	
+	private String getNameByID(String s){
+		for(Account acc : accountList.getList()) {
+			if (acc.getId().equals(s)) {
+				return acc.getBankName();
+			}
+		}
+		return "";
+	}
+	
+	private String getTypeName(int i) {
+		try {
+			return typeList.getList().get(i);
+		}catch(Exception e) {
+			return "Unknown Account";
+		}
 	}
 
 	private ArrayList<String> getAccountsByName(ArrayList<Account> accList) {
@@ -147,10 +167,11 @@ public class EditScheduledTransactionController {
 			selectedTransaction.setAccID(accID);
 			selectedTransaction.setSchedName(name);
 			selectedTransaction.setFrequency(freq);
+			selectedTransaction.setDueDate(transactionDate);
 			selectedTransaction.setPaymentAmount(transasctionAmountDouble);
 			selectedTransaction.setType(transTypeID);
 			
-			scheduleList.updateScheduledTransaction(selectedTransaction, scheduledTransactionID);
+			scheduleList.updateScheduledTransaction(selectedTransaction);
 			errMsg.setText("Transaction is saved successful");
 			try {
 				switchToTransactionSearch(event);
@@ -166,15 +187,9 @@ public class EditScheduledTransactionController {
 	// going back to main page
 	// TODO: Back to Main button like other pages should be implemented.
 	public void switchToTransactionSearch(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		scheduleList.reload();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/SearchedScheduled.fxml"));
 		AnchorPane root = loader.load();
-
-		// Refreshing accounts list
-		MainController mainController = loader.getController();
-		mainController.loadAccounts();
-
-		loader = new FXMLLoader(getClass().getResource("/views/SearchScheduled.fxml"));
-		root = loader.load();
 		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
