@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
+import sjsu.edu.application.TransactionTypeList;
 
 public class SearchTransactionController {
 	
@@ -52,7 +54,8 @@ public class SearchTransactionController {
     @FXML
     private Label errorLabel;
 
-    private TransactionList transactionList = new TransactionList();
+    private TransactionList transactionList = TransactionList.getInstance();
+    private TransactionTypeList typeList = TransactionTypeList.getInstance();
 
     
     // load transaction data 
@@ -63,7 +66,18 @@ public class SearchTransactionController {
     
     public void initialize() {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+        typeColumn.setCellValueFactory(cellData -> {
+	    	try {
+	    		Transaction transaction = cellData.getValue();
+	    		int typeID = transaction.getType();
+	    		String typeName = typeList.getList().get(typeID - 1);
+	    		return new SimpleStringProperty(typeName);
+	    	}catch (Exception e) {
+	    		return new SimpleStringProperty("Unkown Type");
+	    		
+	    	}
+	    	
+	    });
         paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
         depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDate"));

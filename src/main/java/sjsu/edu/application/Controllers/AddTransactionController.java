@@ -41,10 +41,9 @@ public class AddTransactionController {
 	@FXML
 	private TextField depositAmount;
 
-	private AccountList accountList = new AccountList();
-	private TransactionList transactionLst = new TransactionList();
-	private TransactionTypeList typeList = new TransactionTypeList();
-	private ArrayList<String> types = new ArrayList<>();
+	private AccountList accountList = AccountList.getInstance();
+	private TransactionList transactionLst = TransactionList.getInstance();
+	private TransactionTypeList typeList = TransactionTypeList.getInstance();
 
 
 	public void initialize() {
@@ -148,7 +147,7 @@ public class AddTransactionController {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
 				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
-				transactionLst.addTransaction(transTypeID, transactionType ,description, transactionDate, transasctionAmountDouble,
+				transactionLst.addTransaction(transTypeID,description, transactionDate, transasctionAmountDouble,
 						depositAmountDouble, accID);
 				errMsg.setText("Transaction is saved successful");
 				switchToMain(event);
@@ -167,12 +166,10 @@ public class AddTransactionController {
 	}
 
 	public void switchToMain(ActionEvent event) throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		transactionLst.reload();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Transaction.fxml"));
 		AnchorPane root = loader.load();
 
-		// Refreshing accounts list
-		MainController mainController = loader.getController();
-		mainController.loadAccounts();
 
 		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 		scene = new Scene(root);

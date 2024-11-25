@@ -81,60 +81,29 @@ public class TransactionController {
 	        }
 	    });
 
-	    typeColumn.setCellValueFactory(new PropertyValueFactory<>("typeName"));
+	    typeColumn.setCellValueFactory(cellData -> {
+	    	try {
+	    		Transaction transaction = cellData.getValue();
+	    		int typeID = transaction.getType();
+	    		String typeName = typeList.getList().get(typeID - 1);
+	    		return new SimpleStringProperty(typeName);
+	    	}catch (Exception e) {
+	    		return new SimpleStringProperty("Unkown Type");
+	    		
+	    	}
+	    	
+	    });
 	    descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 	    dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
 
 	    paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
 	    depositAmountColumn.setCellValueFactory(new PropertyValueFactory<>("depositAmount"));
 
-	    loadTransactions();
-	}
-
-	private void loadTransactions() {
-	    ObservableList<Transaction> transactionList = FXCollections.observableArrayList();
-
-	    try (Connection conn = DbConnection.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement("SELECT account_id, transaction_type_id ,tt.type_name as transaction_type ,transaction_date, transaction_description, payment_amount, deposit_amount "
-	         												+ " FROM transactions t INNER JOIN transaction_types tt ON  tt.id = t.transaction_type_id "
-	         												+ " ORDER BY transaction_date DESC");
-	         ResultSet rs = stmt.executeQuery()) {
-
-	        this.transactions.getList().clear();
-
-	        while (rs.next()) {
-	            String accountId = rs.getString("account_id");
-	            int transactionTypeID = rs.getInt("transaction_type_id");
-	            String transactionType = rs.getString("transaction_type");
-	            long timestamp = rs.getLong("transaction_date");
-	            LocalDate transactionDate = Instant.ofEpochMilli(timestamp)
-	                                               .atZone(ZoneId.systemDefault())
-	                                               .toLocalDate();
-
-	            String description = rs.getString("transaction_description");
-	            double paymentAmount = rs.getDouble("payment_amount");
-	            double depositAmount = rs.getDouble("deposit_amount");
-
-	            double amount;
-	            if (paymentAmount > 0) {
-	                amount = -paymentAmount;
-	            } else {
-	                amount = depositAmount;
-	            }
-
-	            if (accList.getAccountById(accountId) != null) {
-	                Transaction transaction = new Transaction(transactionTypeID, transactionType,description, transactionDate, paymentAmount, depositAmount, accountId);
-	                this.transactions.getList().add(transaction);
-	            }
-	        }
-
-	    } catch (SQLException error) {
-	        System.out.println("Error loading transactions from database: " + error.getMessage());
-	    }
-
-	    transactionList.addAll(this.transactions.getList());
+	    ObservableList<Transaction> transactionList = FXCollections.observableArrayList(transactions.getList());
 	    TransactionView.setItems(transactionList);
+	    
 	}
+
 
 	
 	public void switchToMain2(ActionEvent event) throws IOException {

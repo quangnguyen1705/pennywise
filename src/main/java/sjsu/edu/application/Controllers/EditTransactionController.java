@@ -72,7 +72,7 @@ public class EditTransactionController {
 		accInput.getItems().addAll(getAccountsByName(accList.getList()));
 		accInput.getSelectionModel().select(accName);
 		typeInput.getItems().addAll(transactionTypeList.getList());
-		typeInput.getSelectionModel().select(selectedTransaction.getTypeName());
+		typeInput.getSelectionModel().select(getTypeByID(selectedTransaction.getType()));
 		descriptionInput.setText(selectedTransaction.getDescription());
 		double payment = selectedTransaction.getPaymentAmount();
 		double deposit = selectedTransaction.getDepositAmount();
@@ -84,6 +84,15 @@ public class EditTransactionController {
 			depositAmountInput.setText(String.valueOf(deposit));
 		}
 
+    }
+    private String getTypeByID(int i) {
+    	try {
+    		return transactionTypeList.getList().get(i - 1);
+    		
+    	}catch(Exception e) {
+    		return "Uknown Type";
+    	}
+    	
     }
     
     private ArrayList<String> getAccountsByName(ArrayList<Account> accList) {
@@ -130,6 +139,8 @@ public class EditTransactionController {
             String depositAmountText = depositAmountInput.getText().trim();
             LocalDate date = dateInput.getValue();
             String typeName = typeInput.getValue();
+            
+            int type = transactionTypeList.getTransactionTypeIdByName(typeName);
 
             if (accName.isEmpty() || description.isEmpty() || date == null || typeName == null) { //checks
                 errorLabel.setText("Fill in all required info fields!");
@@ -160,17 +171,17 @@ public class EditTransactionController {
                 errorLabel.setText("Error with formatting");
                 return;
             }
-            String originalID = selectedTransaction.getAccID();
-            LocalDate originalDate = selectedTransaction.getDate();
+            int id = selectedTransaction.getID();
             selectedTransaction.setAccID(getIDByName(accName));
             selectedTransaction.setDescription(description);
             selectedTransaction.setPaymentAmount(paymentAmount);
             selectedTransaction.setDepositAmount(depositAmount);
             selectedTransaction.setDate(date);
-            selectedTransaction.setTypeName(typeName);
+            selectedTransaction.setType(type);
+            
 
             // db changes
-            transactionList.updateTransaction(selectedTransaction, originalID, originalDate);
+            transactionList.updateTransaction(selectedTransaction, id);
             switchToTransactionSearch(event);
 
             errorLabel.setText("Transaction updated successfully!");

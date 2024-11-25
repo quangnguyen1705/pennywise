@@ -6,18 +6,18 @@ import java.time.format.DateTimeFormatter;
 public class Transaction {
 	private int type;
 	private String accID;
-	private String typeName;
 	private String description;
 	private LocalDate date;
 	private double depositAmount;
 	private double paymentAmount;
+	private int id;
 
-	public Transaction(int typeID, String typeName,String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
+	public Transaction(int id, int typeID, String description, LocalDate date, double paymentAmount, double depositAmount,String accID) {
 		this.type = typeID;
 		this.accID = accID;
-		this.typeName = typeName;
 		this.description = description;
 		this.date = date;
+		this.id = id;
 		
 	    if (paymentAmount > 0) { // logic when payment is present and deposit isnt
 	        this.paymentAmount = paymentAmount;
@@ -26,6 +26,9 @@ public class Transaction {
 	        this.depositAmount = depositAmount;
 	        this.paymentAmount = 0;
 	    }
+	}
+	public int getID() {
+		return id;
 	}
 
 	public int getType() {
@@ -82,12 +85,5 @@ public class Transaction {
 		this.depositAmount = depositAmount;
 	}
 
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
+	
 }
