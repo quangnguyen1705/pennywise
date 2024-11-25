@@ -150,7 +150,7 @@ public class AddTransactionController {
 				transactionLst.addTransaction(transTypeID,description, transactionDate, transasctionAmountDouble,
 						depositAmountDouble, accID);
 				errMsg.setText("Transaction is saved successful");
-				switchToMain(event);
+				switchToView(event);
 			}
 			
 			
@@ -166,6 +166,18 @@ public class AddTransactionController {
 	}
 
 	public void switchToMain(ActionEvent event) throws IOException {
+		transactionLst.reload();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		AnchorPane root = loader.load();
+
+
+		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+	public void switchToView(ActionEvent event) throws IOException {
 		transactionLst.reload();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Transaction.fxml"));
 		AnchorPane root = loader.load();

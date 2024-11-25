@@ -139,7 +139,7 @@ public class AddScheduledTransactionController {
 //public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount)
 				scheduleList.addScheduledTransaction(name, accID, transTypeID, freq, transactionDate, transasctionAmountDouble);
 				errMsg.setText("Transaction is saved successful");
-				switchToMain(event);
+				switchToView(event);
 			}
 			
 		}
@@ -156,6 +156,17 @@ public class AddScheduledTransactionController {
 	}
 
 	public void switchToMain(ActionEvent event) throws IOException {
+		scheduleList.reload();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Main.fxml"));
+		AnchorPane root = loader.load();
+
+		stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+	public void switchToView(ActionEvent event) throws IOException {
 		scheduleList.reload();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ScheduledTransactions.fxml"));
 		AnchorPane root = loader.load();
