@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
@@ -29,7 +30,7 @@ public class MainController implements Initializable{
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	private AccountList accountList = new AccountList(); 
+	private AccountList accountList = AccountList.getInstance(); 
 	
 	@FXML
 	private TableView<Account> AccListView;
@@ -39,6 +40,10 @@ public class MainController implements Initializable{
 	private TableColumn<Account, Double> OpBalance;
 	@FXML
 	private TableColumn<Account, String> OpDate; // we do format this as a date in the initialization
+	@FXML
+	private MenuButton TransactionPortal;
+	@FXML
+	private MenuButton SchedulePortal;
 	
 	
 	//TODO: get the list of accounts
@@ -53,10 +58,7 @@ public class MainController implements Initializable{
 		AccName.setCellValueFactory(new PropertyValueFactory<>("bankName"));
 		OpBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
         OpDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
-		
-		//AccListView.setItems(list);
 		loadAccounts(); 
-		
 	}
 	
 	public void switchToCreateAcc(ActionEvent event) throws IOException {
@@ -70,7 +72,7 @@ public class MainController implements Initializable{
 
 	public void switchToAddTransaction(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/AddTransaction.fxml"));
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		stage = (Stage) TransactionPortal.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -79,7 +81,7 @@ public class MainController implements Initializable{
 	
 	public void switchToTransactions(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/Transaction.fxml"));
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		stage = (Stage) TransactionPortal.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -87,7 +89,7 @@ public class MainController implements Initializable{
 	}
 	public void switchToAddSchedule(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/AddScheduledTransaction.fxml"));
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		stage = (Stage) SchedulePortal.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
@@ -95,7 +97,7 @@ public class MainController implements Initializable{
 	}
 	public void switchToSchedule(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/ScheduledTransactions.fxml"));
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		stage = (Stage) SchedulePortal.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
