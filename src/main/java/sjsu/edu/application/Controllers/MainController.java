@@ -50,6 +50,8 @@ public class MainController implements Initializable{
 	@FXML
 	private MenuButton SchedulePortal;
 	@FXML
+	private MenuButton AccountPortal;
+	@FXML
 	private TableView<ScheduleTransaction> dueTable;
 	@FXML
 	private TableColumn<ScheduleTransaction, String> duePayment;
@@ -83,13 +85,18 @@ public class MainController implements Initializable{
 		loadDueItems();
 	}
 	
-	public void gotoAccReport() {
+	public void switchToAccReport() throws IOException{
+		root = FXMLLoader.load(getClass().getResource("/views/AccountReport.fxml"));
+		stage = (Stage)AccountPortal.getScene().getWindow();
+		scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 		
 	}
 	
 	public void switchToCreateAcc(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/createAcc.fxml"));
-		stage = (Stage)((javafx.scene.Node)event.getSource()).getScene().getWindow();
+		stage = (Stage)AccountPortal.getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
