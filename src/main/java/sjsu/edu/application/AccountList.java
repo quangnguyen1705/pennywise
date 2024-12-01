@@ -95,5 +95,24 @@ public class AccountList {
         }
         return null;
     }
+    
+    public Account getAccountByName(String name) {
+        for (Account account : accountList) {
+            if (account.getBankName().equals(name)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    
+    public ArrayList<String> getNamesOfAccounts() {
+		// TODO Auto-generated method stub
+		ArrayList<String> list = new ArrayList<>();
+		for (Account acc : accountList) {
+			list.add(acc.getBankName());
+		}
+
+		return list;
+	}
 
 }
