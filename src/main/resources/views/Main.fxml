@@ -58,12 +58,31 @@
                   </Label>
                </children>
             </AnchorPane>
-            <TableView fx:id="AccListView" layoutX="7.0" layoutY="97.0" prefHeight="323.0" prefWidth="443.0">
+            <TableView fx:id="AccListView" layoutX="7.0" layoutY="97.0" onMouseClicked="#gotoAccReport" prefHeight="323.0" prefWidth="443.0">
               <columns>
                 <TableColumn fx:id="AccName" prefWidth="148.3" text="Account Name" />
                 <TableColumn fx:id="OpBalance" prefWidth="148.3" text="Opening Balance" />
                   <TableColumn fx:id="OpDate" prefWidth="148.3" text="Opening Date" />
               </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="562.0" layoutY="140.0" prefHeight="313.0" prefWidth="312.0" style="-fx-background-color: #dddddd; -fx-background-radius: 25; -fx-border-radius: 25; -fx-border-color: black; -fx-border-width: 2;">
+         <children>
+            <AnchorPane layoutX="29.0" layoutY="25.0" prefHeight="38.0" prefWidth="254.0" style="-fx-background-color: #898dff; -fx-background-radius: 35;">
+               <children>
+                  <Label alignment="CENTER" layoutX="39.0" prefHeight="32.0" prefWidth="176.0" text="Due Payments" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <TableView fx:id="dueTable" layoutX="54.0" layoutY="84.0" onMouseClicked="#gotoAccReport" prefHeight="198.0" prefWidth="204.0">
+               <columns>
+                  <TableColumn fx:id="duePayment" prefWidth="105.0" text="Due Payment" />
+                  <TableColumn fx:id="Amount" prefWidth="98.0" text="Amount" />
+               </columns>
             </TableView>
          </children>
       </AnchorPane>
