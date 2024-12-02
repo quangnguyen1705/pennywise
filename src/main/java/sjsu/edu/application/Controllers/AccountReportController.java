@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.application.AccountList;
@@ -110,6 +111,23 @@ public class AccountReportController {
 		stage.setScene(scene);
 		stage.show();
 
+	}
+	
+	public void gotoTransactionDetails(MouseEvent event) throws IOException{
+		Transaction selectedT = transactionTable.getSelectionModel().getSelectedItem();
+		if (selectedT != null) {
+			TransactionDetailsController.selectedView = selectedT;
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/TransactionDetails.fxml"));
+			Scene scene = new Scene(loader.load());
+			
+			stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		}
+		else {
+			System.out.println("No transaction selected");
+			
+		}
 	}
 
 }

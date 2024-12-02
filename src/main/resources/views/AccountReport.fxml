@@ -36,7 +36,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <TableView fx:id="transactionTable" layoutX="210.0" layoutY="186.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="226.0" prefWidth="574.0">
+      <TableView fx:id="transactionTable" layoutX="210.0" layoutY="186.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#gotoTransactionDetails" prefHeight="226.0" prefWidth="574.0">
          <columns>
             <TableColumn fx:id="descriptionColumn" editable="false" minWidth="0.0" prefWidth="286.0" text="Description&#10;&#10;" />
             <TableColumn fx:id="dateColumn" editable="false" minWidth="0.0" prefWidth="287.0" text="Date" />
