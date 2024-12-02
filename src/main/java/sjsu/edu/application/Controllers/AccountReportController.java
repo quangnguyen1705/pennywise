@@ -17,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
@@ -43,6 +42,7 @@ public class AccountReportController {
 	private TransactionTypeList typeList = TransactionTypeList.getInstance();
 	private TransactionList transactions = TransactionList.getInstance();
 	private ArrayList<Transaction> accountTransactions = new ArrayList<>();
+	private String name;
 	
 	public void initialize() {
 		selectAccount.getItems().add("--Select Account--");
@@ -55,8 +55,19 @@ public class AccountReportController {
 		selectType.setOnAction(this:: filterType);
 	}
 	public void getTransactions(ActionEvent event) {
-		String name = selectAccount.getValue();
+		name = selectAccount.getValue();
 		AccName.setText(name);
+		loadList(name);
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+		dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
+		loadTable(accountTransactions);
+	    filterType(event);
+	}
+	private void loadTable(ArrayList<Transaction> list) {
+		ObservableList<Transaction> transactionList = FXCollections.observableArrayList(list);
+	    transactionTable.setItems(transactionList);
+	}
+	private void loadList(String name) {
 		accountTransactions.clear();
 		String id = accList.getAccountByName(name).getId();
 		for (Transaction t: transactions.getList()) {
@@ -64,12 +75,25 @@ public class AccountReportController {
 				accountTransactions.add(t);
 			}
 		}
-		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-		dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFormattedDate()));
-		ObservableList<Transaction> transactionList = FXCollections.observableArrayList(accountTransactions);
-	    transactionTable.setItems(transactionList);
+		
+		
 	}
 	public void filterType(ActionEvent event) {
+		String type = selectType.getValue();
+		int id = typeList.getTransactionTypeIdByName(type);
+		if (id == 0) {
+			loadList(name);
+			loadTable(accountTransactions);
+			return;
+		}
+		
+		ArrayList <Transaction> filteredList = new ArrayList<>();
+		for (Transaction t: accountTransactions) {
+			if (t.getType() == id) {
+				filteredList.add(t);
+			}
+		}
+		loadTable(filteredList);
 		
 	}
 	
