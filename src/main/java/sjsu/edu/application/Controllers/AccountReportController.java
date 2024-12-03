@@ -57,6 +57,12 @@ public class AccountReportController {
 	}
 	public void getTransactions(ActionEvent event) {
 		name = selectAccount.getValue();
+		if (name == "--Select Account--") {
+			AccName.setText("");
+			accountTransactions.clear();
+			loadTable(accountTransactions);
+			return;
+		}
 		AccName.setText(name);
 		loadList(name);
 		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -76,6 +82,7 @@ public class AccountReportController {
 				accountTransactions.add(t);
 			}
 		}
+		
 		
 		
 	}
