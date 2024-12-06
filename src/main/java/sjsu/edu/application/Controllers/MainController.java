@@ -14,11 +14,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
@@ -27,9 +26,10 @@ import sjsu.edu.application.AccountList;
 import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 
-public class MainController implements Initializable{
+public class MainController{
 	
 	private Stage stage;
 	private Scene scene;
@@ -57,7 +57,7 @@ public class MainController implements Initializable{
 	private TableColumn<ScheduleTransaction, String> duePayment;
 	@FXML
 	private TableColumn<ScheduleTransaction, Double> Amount;
-	
+	private static boolean shown = false;
 	
 	//TODO: get the list of accounts
 	public void loadAccounts() {
@@ -71,10 +71,11 @@ public class MainController implements Initializable{
         		dueTable.getItems().add(t);
         	}
         }
+        
 	}
 			
 	@FXML
-	public void initialize(URL url, ResourceBundle rb) {
+	public void initialize() {
 		// TODO Auto-generated method stub
 		AccName.setCellValueFactory(new PropertyValueFactory<>("bankName"));
 		OpBalance.setCellValueFactory(new PropertyValueFactory<>("balance"));
@@ -83,6 +84,17 @@ public class MainController implements Initializable{
 		duePayment.setCellValueFactory(new PropertyValueFactory<>("schedName"));
 		Amount.setCellValueFactory(new PropertyValueFactory<>("paymentAmount"));
 		loadDueItems();
+		Platform.runLater(() -> {
+			if(dueTable.getItems().size() > 0 && !shown) {
+	        	Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	        	alert.setTitle("WARNING: PAYMENTS DUE TODAY");
+	        	alert.setContentText("You have " + dueTable.getItems().size() + " scheduled payments due today!");
+	        	alert.showAndWait();
+	        	
+	        }
+			shown = true;
+		});
+		
 	}
 	
 	public void switchToAccReport() throws IOException{

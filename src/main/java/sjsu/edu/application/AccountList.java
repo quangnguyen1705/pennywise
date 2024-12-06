@@ -5,7 +5,6 @@ import java.util.ArrayList;
 //random id generation
 import java.util.UUID;
 
-import sjsu.edu.application.Account;
 import sjsu.edu.application.Models.DbConnection;
 
 import java.sql.*;
