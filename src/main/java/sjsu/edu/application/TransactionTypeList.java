@@ -9,18 +9,21 @@ import java.util.ArrayList;
 
 import sjsu.edu.application.Models.DbConnection;
 
-public class TransactionTypeList {
+public class TransactionTypeList implements ListInterface<String>{
 	private ArrayList<String> list = new ArrayList<>();
 	private static TransactionTypeList typeList = new TransactionTypeList();
 	
 	public static TransactionTypeList getInstance() {
 		return typeList;
 	}
+	public void reload() {
+		loadTransactionTypeDb();
+	}
 	
 	
-	public String addType(String type) {
+	public void add(String type) {
 		list.add(type);
-		return saveTypeDb(type);
+		saveTypeDb(type);
 	}
 	public String getNameByID(int index) {
 		return list.get(index - 1);
@@ -86,6 +89,7 @@ public class TransactionTypeList {
 		loadTransactionTypeDb();
 		
 	}
+	
 	
 
 }

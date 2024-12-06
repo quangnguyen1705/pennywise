@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
 import sjsu.edu.application.TransactionTypeList;
@@ -46,15 +47,15 @@ public class ScheduleTransactionController {
 	private TableColumn<ScheduleTransaction, Double> freqColumn;
 	
 	//private TransactionList transactions = new TransactionList(); change to scheduledList
-	private ScheduleTransactionList scheduleTransaction = ScheduleTransactionList.getInstance();
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
-	private AccountList accList = new AccountList();
+	private List<ScheduleTransaction> scheduleTransaction = new List(new ScheduleTransactionList());
+	private List<String> typeList = new List(new TransactionTypeList());
+	private List<Account> accList = new List(new AccountList());
 	
 	public void initialize() {
 		System.out.println("booting up lists");
 	    accColumn.setCellValueFactory(cellData -> {
 	        ScheduleTransaction transaction = cellData.getValue(); //Change this to whatever the class name is
-	        Account account = accList.getAccountById(transaction.getAccID());
+	        Account account = getAccountById(transaction.getAccID());
 	        if (account != null) {
 	        	System.out.println("fetching acc name");
 	            return new SimpleStringProperty(account.getBankName());
@@ -69,7 +70,7 @@ public class ScheduleTransactionController {
 	    	if (transaction != null) {
 	    		System.out.println("fetching type name");
 	    		int index = transaction.getType();
-	    		return new SimpleStringProperty(typeList.getNameByID(index));
+	    		return new SimpleStringProperty(getNameByID(index));
 	    	}
 	    	else {
 	    		System.out.println("type name fetch fail");
@@ -84,6 +85,19 @@ public class ScheduleTransactionController {
 
 	    ObservableList<ScheduleTransaction> scheduleTransactionLst = FXCollections.observableArrayList(scheduleTransaction.getList());
 	    ScheduledView.setItems(scheduleTransactionLst);
+	}
+	
+	
+	public Account getAccountById(String accountId) {
+        for (Account account : accList.getList()) {
+            if (account.getId().equals(accountId)) {
+                return account;
+            }
+        }
+        return null;
+    }
+	private String getNameByID(int index) {
+		return typeList.getList().get(index - 1);
 	}
 
 	private void loadTransactions() {
@@ -110,7 +124,7 @@ public class ScheduleTransactionController {
 	            
 	            double paymentAmount = rs.getDouble("payment_amount");
 
-	            if (accList.getAccountById(accountId) != null) {
+	            if (getAccountById(accountId) != null) {
 	         
 	                ScheduleTransaction scheduleTrans = new ScheduleTransaction(id, name,accountId,transactionTypeID,frequency,dueDate,paymentAmount);
 	                this.scheduleTransaction.getList().add(scheduleTrans);

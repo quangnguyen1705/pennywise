@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import sjsu.edu.application.Models.DbConnection;
 
-public class ScheduleTransactionList {
+public class ScheduleTransactionList implements TransactionListInterface<ScheduleTransaction>{
 	private ArrayList<ScheduleTransaction> list = new ArrayList<>();
 	private static ScheduleTransactionList scheduleList = new ScheduleTransactionList();
 	
@@ -24,11 +24,7 @@ public class ScheduleTransactionList {
 		loadScheduledTransactionDb();
 	}
 	
-    public void addScheduledTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
-        int lastIndex = list.size() - 1;
-        int trueIndex = list.get(lastIndex).getSchedID() + 1;
-    	ScheduleTransaction newScheduledTransaction = new ScheduleTransaction(trueIndex, schedName, accID, type ,frequency, date, paymentAmount);
-        
+    public void add(ScheduleTransaction newScheduledTransaction) {
     	list.add(newScheduledTransaction);
         saveScheduledTransaction(newScheduledTransaction);
     }
@@ -85,7 +81,7 @@ public class ScheduleTransactionList {
         }
     }
 
-    public void updateScheduledTransaction(ScheduleTransaction scheduledTransaction) {
+    public void update(ScheduleTransaction scheduledTransaction) {
 	    String sql = "UPDATE scheduled_transactions SET account_id = ?, schedule_name = ?, transaction_type_id = ?, frequency = ?, due_date = ?, payment_amount = ? "
 	               + "WHERE id =?";
 	    try (Connection conn = DbConnection.getConnection();

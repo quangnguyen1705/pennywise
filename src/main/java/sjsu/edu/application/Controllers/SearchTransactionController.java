@@ -1,7 +1,7 @@
 package sjsu.edu.application.Controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-
+import sjsu.edu.application.List;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
@@ -54,12 +54,12 @@ public class SearchTransactionController {
     @FXML
     private Label errorLabel;
 
-    private TransactionList transactionList = TransactionList.getInstance();
-    private TransactionTypeList typeList = TransactionTypeList.getInstance();
+    private List<Transaction> transactionList = new List(new TransactionList());
+    private List<String> typeList = new List(new TransactionTypeList());
 
     
     // load transaction data 
-    private void loadTransactionTable(List<Transaction> transactions) {
+    private void loadTransactionTable(ArrayList<Transaction> transactions) {
         ObservableList<Transaction> observableTransactions = FXCollections.observableArrayList(transactions);
         transactionTable.setItems(observableTransactions);
     }
@@ -103,7 +103,7 @@ public class SearchTransactionController {
             return;
         }
 
-        List<Transaction> filteredTransactions = transactionList.getList()
+        ArrayList<Transaction> filteredTransactions = (ArrayList<Transaction>) transactionList.getList()
         	    .stream()
         	    .filter(transaction -> transaction.getDescription().toLowerCase().contains(query.toLowerCase())) // removed other fields for search, since only description is needed
         	    .collect(Collectors.toList());

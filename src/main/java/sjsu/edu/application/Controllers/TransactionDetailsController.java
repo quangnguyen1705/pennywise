@@ -6,12 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionTypeList;
 
@@ -31,18 +31,31 @@ public class TransactionDetailsController {
 	private Stage stage;
 	private Scene scene;
 	public static Transaction selectedView;
-	private AccountList accList = AccountList.getInstance();
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
+	private List<Account> accList = new List(new AccountList());
+	private List<String> typeList = new List(new TransactionTypeList());
 	
 	public void initialize() {
 		descLabel.setText("Transaction: " + selectedView.getDescription());
-		String name = accList.getAccountById(selectedView.getAccID()).getBankName();
+		String name = getAccountById(selectedView.getAccID()).getBankName();
 		accLabel.setText(name);
-		String type = typeList.getNameByID(selectedView.getType());
+		String type = getNameByID(selectedView.getType());
 		typeLabel.setText(type);
 		dateLabel.setText(selectedView.getFormattedDate());
 		transactionLabel.setText(String.valueOf(selectedView.getPaymentAmount()));
 		depositLabel.setText(String.valueOf(selectedView.getDepositAmount()));
+	}
+	
+	private Account getAccountById(String accountId) {
+        for (Account account : accList.getList()) {
+            if (account.getId().equals(accountId)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    
+	private String getNameByID(int index) {
+		return typeList.getList().get(index - 1);
 	}
 	
 	

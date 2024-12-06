@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
@@ -49,9 +50,9 @@ public class EditTransactionController {
     @FXML
     private Label errorLabel; 
 
-    private TransactionList transactionList = TransactionList.getInstance(); 
-    private TransactionTypeList transactionTypeList = TransactionTypeList.getInstance();
-    private AccountList accList = AccountList.getInstance();
+    private List<Transaction> transactionList = new List(new TransactionList()); 
+    private List<String> transactionTypeList = new List(new TransactionTypeList());
+    private List<Account> accList = new List(new AccountList());
     public static Transaction selectedTransaction; 
     
     
@@ -123,6 +124,10 @@ public class EditTransactionController {
     	return "";
     }
     
+    private int getTransactionTypeIdByName(String typeName) {
+	    return transactionTypeList.getList().indexOf(typeName) + 1;
+	}
+    
     //TODO: create save changes button in frontend relating to this
     // user edits to the transaction are updated and refreshed
     @FXML
@@ -140,7 +145,7 @@ public class EditTransactionController {
             LocalDate date = dateInput.getValue();
             String typeName = typeInput.getValue();
             
-            int type = transactionTypeList.getTransactionTypeIdByName(typeName);
+            int type = getTransactionTypeIdByName(typeName);
 
             if (accName.isEmpty() || description.isEmpty() || date == null || typeName == null) { //checks
                 errorLabel.setText("Fill in all required info fields!");
@@ -171,7 +176,6 @@ public class EditTransactionController {
                 errorLabel.setText("Error with formatting");
                 return;
             }
-            int id = selectedTransaction.getID();
             selectedTransaction.setAccID(getIDByName(accName));
             selectedTransaction.setDescription(description);
             selectedTransaction.setPaymentAmount(paymentAmount);
@@ -181,7 +185,7 @@ public class EditTransactionController {
             
 
             // db changes
-            transactionList.updateTransaction(selectedTransaction, id);
+            transactionList.update(selectedTransaction);
             switchToTransactionSearch(event);
 
             errorLabel.setText("Transaction updated successfully!");

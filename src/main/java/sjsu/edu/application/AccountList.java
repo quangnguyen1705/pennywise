@@ -10,20 +10,18 @@ import sjsu.edu.application.Models.DbConnection;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class AccountList {
+public class AccountList implements ListInterface<Account>{
 	private ArrayList<Account> accountList = new ArrayList<>();
 	private static AccountList accList = new AccountList();
 	
 	public static AccountList getInstance() {
 		return accList;
 	}
+	public void reload() {
+		loadAccountsDb();
+	}
 
-	public void addAccount(String bankName, double balance, LocalDate date) {
-		UUID rawID = UUID.randomUUID();
-		String id = rawID.toString();
-
-		Account newAcc = new Account(id, bankName, balance, date); // do this so that separate objects arent created
-
+	public void add(Account newAcc) {
 		accountList.add(newAcc);
 		saveAccountDb(newAcc);
 	}
@@ -113,5 +111,6 @@ public class AccountList {
 
 		return list;
 	}
+	
 
 }

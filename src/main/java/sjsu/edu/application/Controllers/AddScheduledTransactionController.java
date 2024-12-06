@@ -14,6 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
+import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
 import sjsu.edu.application.TransactionTypeList;
 
@@ -36,9 +38,9 @@ public class AddScheduledTransactionController {
 	@FXML
 	private ChoiceBox<String> frequency;
 
-	private AccountList accountList = AccountList.getInstance();
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
-	private ScheduleTransactionList scheduleList = ScheduleTransactionList.getInstance();
+	private List<Account> accountList = new List(new AccountList());
+	private List<String> typeList = new List(new TransactionTypeList());
+	private List<ScheduleTransaction> scheduleList = new List(new ScheduleTransactionList());
 
 
 	public void initialize() {
@@ -69,6 +71,10 @@ public class AddScheduledTransactionController {
 		}
 		return accID;
 
+	}
+	
+	private int getTransactionTypeIdByName(String typeName) {
+	    return typeList.getList().indexOf(typeName) + 1;
 	}
 
 	public void newTransaction(@SuppressWarnings("exports") ActionEvent event) {
@@ -135,9 +141,12 @@ public class AddScheduledTransactionController {
 			else {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
-				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
+				int transTypeID = getTransactionTypeIdByName(transactionType);
 //public ScheduleTransaction(String schedName, String accID, int type, String frequency, int date, double paymentAmount)
-				scheduleList.addScheduledTransaction(name, accID, transTypeID, freq, transactionDate, transasctionAmountDouble);
+				int lastIndex = scheduleList.getList().size() - 1;
+		        int trueIndex = scheduleList.getList().get(lastIndex).getSchedID() + 1;
+		    	
+				scheduleList.add(new ScheduleTransaction(trueIndex, name, accID, transTypeID, freq, transactionDate, transasctionAmountDouble));
 				errMsg.setText("Transaction is saved successful");
 				switchToView(event);
 			}

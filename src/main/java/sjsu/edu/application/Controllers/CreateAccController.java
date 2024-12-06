@@ -2,6 +2,7 @@ package sjsu.edu.application.Controllers;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import javafx.scene.control.TextField;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -33,7 +35,7 @@ public class CreateAccController {
 	@FXML
 	private DatePicker openDateInput;
 
-	private AccountList accountList = new AccountList();
+	private List<Account> accountList = new List(new AccountList());
 
 	public void initialize() {
 		// Set the current date as the default value
@@ -65,7 +67,9 @@ public class CreateAccController {
 			}
 
 			// add account to the arraylist
-			accountList.addAccount(bankName, balance, openDate);
+			UUID rawID = UUID.randomUUID();
+			String id = rawID.toString();
+			accountList.add(new Account(id, bankName, balance, openDate));
 			System.out.println("Account created successfully!");
 
 			// switch back to the main screen

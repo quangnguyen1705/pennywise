@@ -16,6 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
+import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
 
@@ -41,9 +43,9 @@ public class AddTransactionController {
 	@FXML
 	private TextField depositAmount;
 
-	private AccountList accountList = AccountList.getInstance();
-	private TransactionList transactionLst = TransactionList.getInstance();
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
+	private List<Account> accountList = new List(new AccountList());
+	private List<Transaction> transactionLst = new List(new TransactionList());
+	private List<String> typeList = new List(new TransactionTypeList());
 
 
 	public void initialize() {
@@ -77,6 +79,10 @@ public class AddTransactionController {
 		}
 		return accID;
 
+	}
+	
+	private int getTransactionTypeIdByName(String typeName) {
+	    return typeList.getList().indexOf(typeName) + 1;
 	}
 
 	public void newTransaction(@SuppressWarnings("exports") ActionEvent event) {
@@ -146,9 +152,11 @@ public class AddTransactionController {
 			else {
 				// TODO: if transaction type is depositing money into an account, use deposit
 				String accID = getAccIDByName(accountName);
-				int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
-				transactionLst.addTransaction(transTypeID,description, transactionDate, transasctionAmountDouble,
-						depositAmountDouble, accID);
+				int transTypeID = getTransactionTypeIdByName(transactionType);
+				int lastIndex = transactionLst.getList().size() - 1;
+		        int trueIndex = transactionLst.getList().get(lastIndex).getID() + 1;
+				transactionLst.add(new Transaction(trueIndex, transTypeID,description, transactionDate, transasctionAmountDouble,
+						depositAmountDouble, accID));
 				errMsg.setText("Transaction is saved successful");
 				switchToView(event);
 			}

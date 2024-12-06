@@ -20,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,8 +32,8 @@ public class MainController{
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
-	private AccountList accountList = AccountList.getInstance();
-	private ScheduleTransactionList duePayments = ScheduleTransactionList.getInstance();
+	private List<Account> accountList = new List(new AccountList());
+	private List<ScheduleTransaction> duePayments = new List(new ScheduleTransactionList());
 	
 	@FXML
 	private TableView<Account> AccListView;

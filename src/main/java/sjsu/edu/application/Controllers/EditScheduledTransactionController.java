@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.ScheduleTransaction;
 import sjsu.edu.application.ScheduleTransactionList;
 import sjsu.edu.application.Transaction;
@@ -39,9 +40,9 @@ public class EditScheduledTransactionController {
 	@FXML
 	private ChoiceBox<String> frequency;
 
-	private AccountList accountList = new AccountList();
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
-	private ScheduleTransactionList scheduleList = ScheduleTransactionList.getInstance();
+	private List<Account> accountList = new List(new AccountList());
+	private List<String> typeList = new List(new TransactionTypeList());
+	private List<ScheduleTransaction> scheduleList = new List(new ScheduleTransactionList());
 	public static ScheduleTransaction selectedTransaction;
 
 	public ScheduleTransaction getData() {
@@ -96,6 +97,9 @@ public class EditScheduledTransactionController {
 		}
 		return accID;
 
+	}
+	public int getTransactionTypeIdByName(String typeName) {
+	    return typeList.getList().indexOf(typeName) + 1;
 	}
 
 	// TODO: create save changes button in frontend relating to this
@@ -160,7 +164,7 @@ public class EditScheduledTransactionController {
 		} else {
 			// TODO: if transaction type is depositing money into an account, use deposit
 			String accID = getAccIDByName(accountName);
-			int transTypeID = typeList.getTransactionTypeIdByName(transactionType);
+			int transTypeID = getTransactionTypeIdByName(transactionType);
 			// public ScheduleTransaction(String schedName, String accID, int type, String
 			// frequency, int date, double paymentAmount)
 			
@@ -171,13 +175,13 @@ public class EditScheduledTransactionController {
 			selectedTransaction.setPaymentAmount(transasctionAmountDouble);
 			selectedTransaction.setType(transTypeID);
 			
-			scheduleList.updateScheduledTransaction(selectedTransaction);
+			scheduleList.update(selectedTransaction);
 			errMsg.setText("Transaction is saved successful");
 			try {
 				switchToTransactionSearch(event);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import sjsu.edu.application.Models.DbConnection;
 
-public class TransactionList {
+public class TransactionList implements TransactionListInterface<Transaction>{
 	private ArrayList<Transaction> list = new ArrayList<>();
 	private static TransactionList tList = new TransactionList();
 	
@@ -28,20 +28,7 @@ public class TransactionList {
 	}
 	
 	
-	public void addTransaction(int typeId,String description, LocalDate date, double paymentAmount, double depositAmount, String accID) {
-		int lastIndex = list.size() - 1;
-        int trueIndex = list.get(lastIndex).getID() + 1;
-		Transaction newTransaction = new Transaction(trueIndex, typeId, description, date, paymentAmount,depositAmount, accID); // do this so that separate objects arent created
-
-        /* if (type <= 0) {
-            throw new IllegalArgumentException("Transaction type must be a positive integer.");
-        }
-
-        if (paymentAmount <= 0 && depositAmount <= 0) {
-            throw new IllegalArgumentException("Either paymentAmount or depositAmount must be greater than 0.");
-        } */
-
-		
+	public void add(Transaction newTransaction) {
 		list.add(newTransaction);
 		saveTransaction(newTransaction);
 	
@@ -100,7 +87,7 @@ public class TransactionList {
         }
     }
 	
-	public void updateTransaction(Transaction transaction, int id) {
+	public void update(Transaction transaction) {
 	    String sql = "UPDATE transactions SET account_id = ?, transaction_description = ?, transaction_type_id = ?, transaction_date = ?, payment_amount = ?, deposit_amount = ? "
 	               + "WHERE id = ?";
 	    try (Connection conn = DbConnection.getConnection();
@@ -111,7 +98,7 @@ public class TransactionList {
 	        statement.setDate(4, Date.valueOf(transaction.getDate()));
 	        statement.setDouble(5, transaction.getPaymentAmount());
 	        statement.setDouble(6, transaction.getDepositAmount());
-	        statement.setInt(7, id);  
+	        statement.setInt(7, transaction.getID());  
 	        
 
 	        int changes = statement.executeUpdate();

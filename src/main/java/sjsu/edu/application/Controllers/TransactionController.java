@@ -1,8 +1,6 @@
 package sjsu.edu.application.Controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,19 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sjsu.edu.application.Account;
 import sjsu.edu.application.AccountList;
+import sjsu.edu.application.List;
 import sjsu.edu.application.Transaction;
 import sjsu.edu.application.TransactionList;
 import sjsu.edu.application.TransactionTypeList;
-import sjsu.edu.application.Models.DbConnection;
-
-import java.time.Instant;
-import java.time.ZoneId;
-
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class TransactionController {
 	
@@ -64,16 +53,16 @@ public class TransactionController {
 	private TableColumn<Transaction, Double> depositAmountColumn;
 
 	
-	private TransactionTypeList typeList = TransactionTypeList.getInstance();
-	private TransactionList transactions = TransactionList.getInstance();
-	private AccountList accList = AccountList.getInstance();
+	private List<String> typeList = new List(new TransactionTypeList());
+	private List<Transaction> transactions = new List(new TransactionList());
+	private List<Account> accList = new List(new AccountList());
 	
 	public void initialize() {
 	    listedTypes.getItems().addAll(typeList.getList());
 
 	    accColumn.setCellValueFactory(cellData -> {
 	        Transaction transaction = cellData.getValue();
-	        Account account = accList.getAccountById(transaction.getAccID());
+	        Account account = getAccountById(transaction.getAccID());
 	        if (account != null) {
 	            return new SimpleStringProperty(account.getBankName());
 	        } else {
@@ -104,7 +93,14 @@ public class TransactionController {
 	    
 	}
 
-
+	private Account getAccountById(String accountId) {
+        for (Account account : accList.getList()) {
+            if (account.getId().equals(accountId)) {
+                return account;
+            }
+        }
+        return null;
+    }
 	
 	public void switchToMain2(ActionEvent event) throws IOException {
 		root = FXMLLoader.load(getClass().getResource("/views/Main.fxml"));
@@ -134,6 +130,10 @@ public class TransactionController {
 		
 	}
 	
+	private boolean containsDuplicate(String type) {
+		return typeList.getList().contains(type);
+	}
+	
 	public void addTypeOP(ActionEvent event) {
 		errMsg.setText("");
 		String type = typeInputField.getText();
@@ -141,14 +141,16 @@ public class TransactionController {
 			errMsg.setText("Please enter a valid type");
 			return;
 		}
-		String res = typeList.addType(type);
-		typeInputField.setText("");
-		if(res.equals("Success")) {
+		if (!containsDuplicate(type)) {
+			typeList.add(type);
+			typeInputField.setText("");
 			listedTypes.getItems().add(type);
 		}
 		else {
 			errMsg.setText("Duplicate Type Found");
 		}
+		
+		
 		
 		
 	}
