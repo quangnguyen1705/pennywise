@@ -13,11 +13,6 @@ import sjsu.edu.application.Models.DbConnection;
 
 public class TransactionList implements TransactionListInterface<Transaction>{
 	private ArrayList<Transaction> list = new ArrayList<>();
-	private static TransactionList tList = new TransactionList();
-	
-	public static TransactionList getInstance() {
-		return tList;
-	}
 
 	public TransactionList() {
 		//load the data from the transaction list

@@ -11,11 +11,7 @@ import sjsu.edu.application.Models.DbConnection;
 
 public class TransactionTypeList implements ListInterface<String>{
 	private ArrayList<String> list = new ArrayList<>();
-	private static TransactionTypeList typeList = new TransactionTypeList();
 	
-	public static TransactionTypeList getInstance() {
-		return typeList;
-	}
 	public void reload() {
 		loadTransactionTypeDb();
 	}
