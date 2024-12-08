@@ -22,7 +22,7 @@ public class AccountList implements ListInterface<Account>{
 		saveAccountDb(newAcc);
 	}
 
-	public void saveAccountDb(Account acc) {
+	private void saveAccountDb(Account acc) {
 		// Ensure the account has an ID
 		if (acc.getId() == null || acc.getId().isEmpty()) {
 			acc.setId(UUID.randomUUID().toString()); // unique ID
@@ -48,7 +48,7 @@ public class AccountList implements ListInterface<Account>{
 		}
 	}
 
-	public void loadAccountsDb() {
+	private void loadAccountsDb() {
 		accountList.clear();
 		String sql = "SELECT id, bank_name, open_balance, open_date FROM accounts ORDER BY open_date DESC";
 

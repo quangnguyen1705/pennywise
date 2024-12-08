@@ -25,7 +25,7 @@ public class TransactionTypeList implements ListInterface<String>{
 		return list.get(index - 1);
 	}
 	
-	public String saveTypeDb(String type) {
+	private String saveTypeDb(String type) {
 		String sql = "INSERT INTO transaction_types (type_name) VALUES (?)";
 		try (Connection conn = DbConnection.getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
 
@@ -50,7 +50,7 @@ public class TransactionTypeList implements ListInterface<String>{
 	}
 	
 	
-	public void loadTransactionTypeDb() {
+	private void loadTransactionTypeDb() {
 		//TODO
 		list.clear();
 		System.out.println("list cleared");
