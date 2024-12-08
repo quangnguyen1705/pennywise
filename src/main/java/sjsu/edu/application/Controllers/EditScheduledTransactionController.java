@@ -98,7 +98,7 @@ public class EditScheduledTransactionController {
 		return accID;
 
 	}
-	public int getTransactionTypeIdByName(String typeName) {
+	private int getTransactionTypeIdByName(String typeName) {
 	    return typeList.getList().indexOf(typeName) + 1;
 	}
 

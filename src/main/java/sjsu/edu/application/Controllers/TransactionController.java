@@ -93,7 +93,7 @@ public class TransactionController {
 	    
 	}
 
-	private Account getAccountById(String accountId) {
+	public Account getAccountById(String accountId) {
         for (Account account : accList.getList()) {
             if (account.getId().equals(accountId)) {
                 return account;
@@ -130,7 +130,7 @@ public class TransactionController {
 		
 	}
 	
-	private boolean containsDuplicate(String type) {
+	public boolean containsDuplicate(String type) {
 		return typeList.getList().contains(type);
 	}
 	
