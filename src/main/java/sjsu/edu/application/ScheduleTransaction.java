@@ -9,7 +9,7 @@ public class ScheduleTransaction {
 	private String frequency; 
 	private int dueDate; 
 	private double paymentAmount;
-	public int schedID;
+	private int schedID;
 	
     public ScheduleTransaction(int id, String schedName, String accID, int type, String frequency, int date, double paymentAmount) {
         this.schedName = schedName;
